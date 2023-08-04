@@ -37,6 +37,7 @@ class FurnitureAd(models.Model):
     # auto_now is added automatically when editing a post
     last_modified_date = models.DateTimeField(auto_now=True)
     ad_duration_to = models.DateField()
+    views = models.IntegerField(default=0)
 
 
 class OrderItem(models.Model):

@@ -1,0 +1,66 @@
+
+
+
+
+/* Custom CSS for Footer */
+.footer-links li {
+    list-style: none;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.2s ease-in-out;
+    margin-bottom: 10px;
+}
+
+.footer-links a:hover {
+    color: #BC1D1B;
+}
+
+.footer-column-title {
+    color: #BC1D1B;
+}
+
+.fancy-red {
+    animation: fadeRed 2s infinite;
+}
+
+@keyframes fadeRed {
+    0%, 100% {
+        color: #BC1D1B;
+    }
+    50% {
+        color: #FF0000;
+    }
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo img {
+    margin-right: 10px;
+}
+
+.footer-logo-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text-gray {
+    color: #8E95A9;
+}
+
+.no-padding {
+    padding-left: 0;
+}
+
+hr {
+    border-color: #BC1D1B;
+    border-width: 1px;
+}
+

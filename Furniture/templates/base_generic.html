@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Clone</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+            integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/fontawesome.min.css"
+          integrity="sha384-QYIZto+st3yW+o8+5OHfT6S482Zsvz2WfOzpFSXMF9zqeLcFV0/wlZpMtyFcZALm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Roboto', sans-serif !important;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <!-- Logo -->
+            <style>
+                .navbar-brand {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .navbar-brand img {
+                    margin-right: 10px;
+                }
+            </style>
+
+            <a class="navbar-brand" href="#">
+                <img src="https://i.imgur.com/svgFzb0.png" alt="UrbanNest Logo" width="105" height="62">
+                <div>
+                    <span style="color: #E3B930; font-size: 36px; font-family: Roboto; font-weight: 500; word-wrap: break-word; line-height: 62px;">Urban</span>
+                    <span style="color: #BC1D1B; font-size: 36px; font-family: Roboto; font-weight: 500; word-wrap: break-word; line-height: 62px;">Nest</span>
+                </div>
+            </a>
+
+
+            <!-- Mobile Menu Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links -->
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Discovery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container">
+        {% block content %}
+        Default content
+        {% endblock %}
+    </div>
+
+    <style>
+        /* Custom CSS for Footer */
+        .footer-links li {
+            list-style: none;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.2s ease-in-out;
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: #BC1D1B;
+        }
+
+        .footer-column-title {
+            color: #BC1D1B;
+        }
+
+        .fancy-red {
+            animation: fadeRed 2s infinite;
+        }
+
+        @keyframes fadeRed {
+            0%, 100% {
+                color: #BC1D1B;
+            }
+            50% {
+                color: #FF0000;
+            }
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-logo img {
+            margin-right: 10px;
+        }
+
+        .footer-logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .text-gray {
+            color: #8E95A9;
+        }
+
+        .no-padding {
+            padding-left: 0;
+        }
+
+        hr {
+            border-color: #BC1D1B;
+            border-width: 1px;
+        }
+
+
+    </style>
+
+    <footer class="footer py-4 bg-gray text-black">
+        <hr class="mt-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="footer-logo">
+                        <img src="https://i.imgur.com/svgFzb0.png" alt="UrbanNest Logo" width="150" height="90">
+                        <div class="footer-logo-text d-flex">
+                            <div>
+                                <span style="color: #E3B930; font-size: 36px; font-family: Roboto,serif; font-weight: 500;">Urban</span>
+                                <span style="color: #BC1D1B; font-size: 36px; font-family: Roboto,serif; font-weight: 500; ">Nest</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray">FINKI, Dimitrija Timeski - 203235 © 2023</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4 mb-4">
+                            <h3 class="footer-column-title fancy-red">DISCOVERY</h3>
+                            <ul class="footer-links no-padding">
+                                <li><a href="#">Most Popular</a></li>
+                                <li><a href="#">Add a Product</a></li>
+                                <li><a href="#">Categories</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h3 class="footer-column-title fancy-red">ABOUT</h3>
+                            <ul class="footer-links no-padding">
+                                <li><a href="#">Affiliate</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 mb-4">
+                            <h3 class="footer-column-title fancy-red">INFO</h3>
+                            <ul class="footer-links no-padding">
+                                <li><a href="#">Contact us</a></li>
+                                <li><a href="#">Privacy Policies</a></li>
+                                <li><a href="#">Terms & Conditions</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
