@@ -1,12 +1,16 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
-
+from .forms import NewUserForm, UrbanNestUserForm
+from django.contrib.auth import login
+from django.contrib import messages
 from .forms import FurnitureAdForm
 from .models import FurnitureAd, UrbanNestUser, OrderItem, ShoppingCart, Category
 from datetime import datetime, timedelta
 # from .forms import
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 
 
 # Create your views here.
@@ -84,3 +88,48 @@ def add_furniture_ad(request):
         form = FurnitureAdForm()
     context = {'form': form}
     return render(request, 'ad-add.html', context=context)
+
+
+def register_request(request):
+    if request.method == 'POST':
+        user_form = NewUserForm(request.POST)
+        profile_form = UrbanNestUserForm(request.POST, request.FILES)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+
+            # Create a shopping cart for the user
+            shopping_cart = ShoppingCart.objects.create(buyer=profile)
+
+            return redirect('home')  # Replace 'home' with the URL name for the home page
+
+    else:
+        user_form = NewUserForm()
+        profile_form = UrbanNestUserForm()
+
+    return render(request, 'main/register.html', {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    })
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("index")
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request=request, template_name="main/login.html", context={"login_form": form})

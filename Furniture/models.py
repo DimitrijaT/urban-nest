@@ -5,7 +5,7 @@ from django_countries.fields import CountryField
 
 
 class UrbanNestUser(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     photo = models.ImageField(upload_to='images/users', null=True, blank=True)
@@ -15,6 +15,10 @@ class UrbanNestUser(models.Model):
     province = models.CharField(max_length=100)
     country = CountryField()
     phone_number = models.CharField(max_length=9)
+    shopping_cart = models.ForeignKey('ShoppingCart', on_delete=models.CASCADE, null=True, blank=True)
+
+    # every user has a shopping cart, it is empty by default
+    # when a user adds an item to the shopping cart, the item is added to the shopping cart
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -84,8 +88,9 @@ class OrderItem(models.Model):
 
 
 class ShoppingCart(models.Model):
-    buyer = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE)
+    buyer = models.OneToOneField(UrbanNestUser, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
+
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
     # auto_now is added automatically when editing a post
