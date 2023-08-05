@@ -30,15 +30,16 @@ background-size: cover;"
         </div>
 
         <div class="d-grid gap-3 d-md-flex justify-content-md-center">
-            <button class="btn btn-danger" style="border-radius: 50px;">Discover Unique Treasures</button>
-            <button class="btn btn-warning" style="border-radius: 50px;">Sell</button>
+            <a href="{% url 'adcategory' %}" class="btn btn-danger" style="border-radius: 50px;">Discover Unique
+                Treasures</a>
+            <a href="{% url 'add_furniture_ad' %}" class="btn btn-warning" style="border-radius: 50px;">Sell</a>
         </div>
     </div>
 </div>
 
 
 <div> <!--Add margin here to make it look equal-->
-    <div class="container  flex-column d-flex justify-content-center">
+    <div class="container  my-2 flex-column d-flex justify-content-center">
         <div style="text-align: center; color: #0B254B; font-size: 40px; font-family: Poppins; font-weight: 500; line-height: 57.60px;">
             Most Viewed Products
         </div>
@@ -71,7 +72,7 @@ background-size: cover;"
     <div class="container">
         <div class="row">
             {% for ad in popular_ads %}
-            <div class="col">
+            <div class="col col-md-3">
 
                 <div class="card" style="width: 255px;">
                     <a class="text-decoration-none text-reset" href="{% url 'addetails' pk=ad.pk %}">
@@ -93,19 +94,19 @@ background-size: cover;"
     <div class="container">
         <div class="row">
             <div class="col d-flex justify-content-center">
-                <button class="btn btn-danger" style="display: inline-flex;
+                <a href="{% url 'adcategory' %}" class="btn btn-danger mt-2" style="display: inline-flex;
 height: 37.65px;
 padding: 8px 44px;
 align-items: flex-start;
 gap: 10px;
 flex-shrink: 0;">Show All
-                </button>
+                </a>
             </div>
         </div>
 
-        <div class="row">
+        <div class="row m-2">
             <div class="col d-flex justify-content-center">
-                <a href="" style="color: var(--yellow, #E3B930);
+                <a href="{% url 'add_furniture_ad' %}" style="color: var(--yellow, #E3B930);
 font-feature-settings: 'clig' off, 'liga' off;
 font-family: Roboto;
 font-size: 18px;

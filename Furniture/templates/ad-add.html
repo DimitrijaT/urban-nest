@@ -1,3 +1,16 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
 
 
+<div class="container my-5">
+    <h3>Add a new Post</h3>
+    <form method="post"  enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-success">Post It!</button>
+    </form>
+</div>
+
+{% endblock %}
 

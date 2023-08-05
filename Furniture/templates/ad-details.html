@@ -78,6 +78,7 @@
         border-radius: 15px;
         margin-top: 20px;
     }
+
 </style>
 
 <div class="container mt-5">
@@ -87,11 +88,11 @@
                 <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="img-fluid product-image" alt="Product Image">
             </div>
             <div class="product-description">
-                <p>
+                <h5>
                     {{ item.description }}
-                </p>
-                <p class="free-shipping">🚚 Free Shipping</p>
+                </h5>
             </div>
+            <p class="free-shipping">🚚 Free Shipping</p>
         </div>
         {% load custom_filters %}
         <style>

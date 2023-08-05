@@ -16,11 +16,24 @@ class UrbanNestUser(models.Model):
     country = CountryField()
     phone_number = models.CharField(max_length=9)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='images/categories', null=True, blank=True)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 
 class FurnitureAd(models.Model):
     seller = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    category = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     rating = models.IntegerField()
     description = models.TextField()
     price = models.IntegerField()
@@ -38,6 +51,9 @@ class FurnitureAd(models.Model):
     last_modified_date = models.DateTimeField(auto_now=True)
     ad_duration_to = models.DateField()
     views = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
 
 
 class OrderItem(models.Model):
@@ -103,3 +119,19 @@ class ShoppingCart(models.Model):
         for item in self.items.all():
             total += item.price
         return total
+
+
+#  Add Testimonials!
+
+class Testimonials(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    image = models.ImageField(upload_to='images/testimonials', null=True, blank=True)
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name

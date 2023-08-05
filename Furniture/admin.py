@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UrbanNestUser, FurnitureAd, OrderItem, ShoppingCart
+from .models import UrbanNestUser, FurnitureAd, OrderItem, ShoppingCart, Category
 
 
 # Register your models here.
@@ -19,9 +19,8 @@ class UrbanNestUserAdmin(admin.ModelAdmin):
 
 class FurnitureAdAdmin(admin.ModelAdmin):
     list_display = (
-        'seller', 'name', 'category', 'rating', 'description', 'price', 'currency', 'width', 'length', 'height',
-        'weight',
-        'unit_weight', 'image', 'status', 'creation_date', 'last_modified_date', 'ad_duration_to')
+        'seller', 'name', 'category', 'rating', 'price', 'currency', 'status', 'creation_date', 'last_modified_date',
+        'ad_duration_to')
 
     def has_view_permission(self, request, obj=None):
         return True
@@ -30,6 +29,14 @@ class FurnitureAdAdmin(admin.ModelAdmin):
         if obj and request.user == obj.seller.user:
             return True
         return False
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+    def has_view_permission(self, request, obj=None):
+        return True
 
 
 admin.site.register(UrbanNestUser, UrbanNestUserAdmin)

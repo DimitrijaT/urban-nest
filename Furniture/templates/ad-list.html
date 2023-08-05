@@ -1,0 +1,134 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+<style>
+    .category-title {
+        color: #0B254B;
+        font-size: 40px;
+        font-family: Poppins;
+        font-weight: 500;
+        line-height: 57.60px;
+        word-wrap: break-word;
+        margin-bottom: 10px;
+    }
+
+    .category-description {
+        color: #5E6E89;
+        font-size: 18px;
+        font-family: Poppins;
+        font-weight: 500;
+        line-height: 27.60px;
+        letter-spacing: 0.10px;
+        word-wrap: break-word;
+    }
+
+    .search-input {
+        border-radius: 30px 0 0 30px;
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .search-btn {
+        border-radius: 0 30px 30px 0;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        background-color: #E3B930;
+        border: 2px solid #E3B930;
+        color: #fff;
+    }
+
+    .sort-btn {
+        border-radius: 30px;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: 600;
+        border: 2px solid #E3B930;
+        color: #E3B930;
+        background-color: transparent;
+    }
+
+    .sort-btn:hover {
+        background-color: #E3B930;
+        color: #fff;
+    }
+
+
+    .card {
+        width: 255px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adding box shadow */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Adding a pop-off animation */
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Increasing the box shadow on hover */
+    }
+
+    .price {
+        font-weight: bold;
+    }
+
+
+</style>
+<div>
+    <div class="container mt-2">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center category-title">
+                Category
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center category-description">
+                First let's select a category you are interested in!
+            </div>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-7 d-flex">
+                <input type="text" class="form-control rounded-pill search-input mx-3" placeholder="Search...">
+                <button class="btn btn-warning search-btn rounded-pill" type="button">Search</button>
+            </div>
+            <!--            <div class="col-md-2">-->
+            <!--                <button class="btn sort-btn btn-block rounded-pill">Sort</button>-->
+            <!--            </div>-->
+        </div>
+    </div>
+
+
+    <div class="container mt-2">
+        <div class="row">
+            {% load custom_filters %}
+            {% for furniture_item in furniture_ads %}
+            <div class="col-md-3">
+                <div class="card m-2" style="width: 255px; height: 230px;">
+                    <a class="text-decoration-none text-reset" href="{% url 'addetails' pk=furniture_item.pk %}">
+                        <div style=" background-color: #f5f5f5; height: 155px"
+                             class="text-decoration-none text-reset d-flex flex-column justify-content-center align-items-center"
+                             href="">
+                            <div style=" overflow: hidden;">
+                                <img style="width: 100%; object-fit: fill;"
+                                     src="{{ MEDIA_URL }}{{ furniture_item.image.url }}" class="card-img-top"
+                                     alt="Product Image">
+                            </div>
+
+
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ furniture_item.name }}</h5>
+                            <p class="card-text price">{{ furniture_item.views }} Views</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+        </div>
+        <div class="row">
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

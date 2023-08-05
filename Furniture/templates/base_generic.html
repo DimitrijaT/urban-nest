@@ -40,11 +40,14 @@
                 }
             </style>
 
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="{% url 'index' %}">
                 <img src="https://i.imgur.com/svgFzb0.png" alt="UrbanNest Logo" width="105" height="62">
-                <div>
-                    <span style="color: #E3B930; font-size: 36px; font-family: Roboto; font-weight: 500; word-wrap: break-word; line-height: 62px;">Urban</span>
-                    <span style="color: #BC1D1B; font-size: 36px; font-family: Roboto; font-weight: 500; word-wrap: break-word; line-height: 62px;">Nest</span>
+                <div class="d-flex">
+                    <div>
+                        <span style="color: #E3B930; font-size: 36px; font-family: Roboto,serif; font-weight: 600;">Urban</span>
+                        <span class="font-weight-bold"
+                              style="color: #BC1D1B; font-size: 36px; font-family: Roboto,serif; font-weight: 600; ">Nest</span>
+                    </div>
                 </div>
             </a>
 
@@ -59,13 +62,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Discovery</a>
+                        <a class="nav-link" href="{% url 'adcategory' %}">Discovery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact us</a>
+                        <a class="nav-link" href="{% url 'contact' %}">Contact us</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
@@ -164,8 +167,8 @@
                         <img src="https://i.imgur.com/svgFzb0.png" alt="UrbanNest Logo" width="150" height="90">
                         <div class="footer-logo-text d-flex">
                             <div>
-                                <span style="color: #E3B930; font-size: 36px; font-family: Roboto,serif; font-weight: 500;">Urban</span>
-                                <span style="color: #BC1D1B; font-size: 36px; font-family: Roboto,serif; font-weight: 500; ">Nest</span>
+                                <span style="color: #E3B930; font-size: 36px; font-family: Roboto,serif; font-weight: 600;">Urban</span>
+                                <span style="color: #BC1D1B; font-size: 36px; font-family: Roboto,serif; font-weight: 600; ">Nest</span>
                             </div>
                         </div>
                     </div>
