@@ -133,3 +133,18 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="main/login.html", context={"login_form": form})
+
+
+def dashboard_home(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    context = {'user': user}
+    return render(request, 'dashboard/dashboard-home.html', context=context)
+
+
+def shopping_cart(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    shopping_cart = ShoppingCart.objects.get(buyer=user)
+    context = {'shopping_cart': shopping_cart}
+    return render(request, 'shopping-cart.html', context=context)

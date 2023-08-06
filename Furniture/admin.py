@@ -59,13 +59,12 @@ class UserAdmin(BaseUserAdmin):
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
     list_display = ('buyer', 'creation_date', 'last_modified_date')
-    exclude = ('buyer',)
 
     def has_view_permission(self, request, obj=None):
         return True
 
     def has_change_permission(self, request, obj=None):
-        if obj and request.user == obj.buyer:
+        if obj and request.user == obj.buyer.user:
             return True
         return False
 
