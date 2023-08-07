@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import NewUserForm, UrbanNestUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 from .forms import FurnitureAdForm
-from .models import FurnitureAd, UrbanNestUser, OrderItem, ShoppingCart, Category
+from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category
 from datetime import datetime, timedelta
 # from .forms import
 from django.http import HttpResponse, HttpResponseRedirect
@@ -30,6 +30,10 @@ def contact(request):
 
 
 def details(request, pk):
+    if request.method == 'POST':
+        user = UrbanNestUser.objects.get(user=request.user)
+        user.shopping_cart.add_item(pk)
+
     item = FurnitureAd.objects.get(id=pk)
     context = {'item': item}
 
@@ -146,5 +150,23 @@ def shopping_cart(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
     shopping_cart = ShoppingCart.objects.get(buyer=user)
-    context = {'shopping_cart': shopping_cart}
+    items = shopping_cart.items.all()
+    context = {'shopping_cart': shopping_cart, 'items': items}
     return render(request, 'shopping-cart.html', context=context)
+
+
+def add_to_cart(request, furniture_id):
+    furniture = get_object_or_404(FurnitureAd, id=furniture_id)
+    user = UrbanNestUser.objects.get(user=request.user)
+    product = Product.objects.create(buyer=user, furniture=furniture)
+    cart, created = ShoppingCart.objects.get_or_create(buyer=user)
+    cart.items.add(product)
+    return redirect('shopping_cart')
+
+
+def remove_from_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    user = UrbanNestUser.objects.get(user=request.user)
+    cart = ShoppingCart.objects.get(buyer=user)
+    cart.items.remove(product.pk)
+    return redirect('shopping_cart')

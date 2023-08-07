@@ -60,7 +60,7 @@ class FurnitureAd(models.Model):
         return self.name
 
 
-class OrderItem(models.Model):
+class Product(models.Model):
     buyer = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE, null=True, blank=True)
     furniture = models.ForeignKey(FurnitureAd, on_delete=models.CASCADE)
     # auto_now_add is added automatically when creating a post
@@ -89,7 +89,7 @@ class OrderItem(models.Model):
 
 class ShoppingCart(models.Model):
     buyer = models.OneToOneField(UrbanNestUser, on_delete=models.CASCADE)
-    items = models.ManyToManyField(OrderItem)
+    items = models.ManyToManyField(Product)
 
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -122,7 +122,7 @@ class ShoppingCart(models.Model):
     def get_total_price(self):
         total = 0
         for item in self.items.all():
-            total += item.price
+            total += item.furniture.price
         return total
 
 

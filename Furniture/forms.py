@@ -1,5 +1,5 @@
 from django import forms
-from .models import FurnitureAd, UrbanNestUser, OrderItem, ShoppingCart, Category
+from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 

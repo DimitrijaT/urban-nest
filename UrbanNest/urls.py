@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, \
-    login_request, dashboard_home, shopping_cart
+    login_request, dashboard_home, shopping_cart, add_to_cart, remove_from_cart
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -34,5 +34,7 @@ urlpatterns = [
                   path("shopping_cart", shopping_cart, name="shopping_cart"),
                   path("register", register_request, name="register"),
                   path("login", login_request, name="login"),
-                  path("dashboard/home", dashboard_home, name="dashboard_home")
+                  path("dashboard/home", dashboard_home, name="dashboard_home"),
+                  path('add_to_cart/<int:furniture_id>/', add_to_cart, name='add_to_cart'),
+                  path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
