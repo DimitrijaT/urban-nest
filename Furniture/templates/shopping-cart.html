@@ -48,7 +48,7 @@ letter-spacing: -0.9px;">Your cart items</h1>
     <div class="row">
         <!--Method call-->
         <div class="col">Sub-total: {{shopping_cart.get_total_price }}</div>
-        <div class="col"><a href="" class="btn btn-danger " style="display: inline-flex;
+        <div class="col"><a href="{% url 'checkout' %}" class="btn btn-danger " style="display: inline-flex;
 padding: 8px 44px;
 align-items: flex-start;
 gap: 10px;border-radius: 4px;

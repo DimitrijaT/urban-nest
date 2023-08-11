@@ -25,6 +25,11 @@ class FurnitureAdForm(forms.ModelForm):
 class NewUserForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
+    def __init__(self, *args, **kwargs):
+        super(NewUserForm, self).__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = User
         fields = ("username", "email", "password1", "password2")
@@ -38,6 +43,12 @@ class NewUserForm(UserCreationForm):
 
 
 class UrbanNestUserForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UrbanNestUserForm, self).__init__(*args, **kwargs)
+        for field in self.visible_fields():
+            field.field.widget.attrs['class'] = 'form-control'
+
     class Meta:
         model = UrbanNestUser
         fields = (

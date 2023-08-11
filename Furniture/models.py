@@ -48,7 +48,6 @@ class FurnitureAd(models.Model):
     weight = models.IntegerField()
     unit_weight = models.CharField(max_length=100)
     image = models.ImageField(upload_to='images/furnitures', null=True, blank=True)
-    status = models.CharField(max_length=100)
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
     # auto_now is added automatically when editing a post
@@ -67,6 +66,7 @@ class Product(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
 
     class Status(models.TextChoices):
+        IN_CART = 'IC', _('In Shopping Cart')
         PENDING = 'PE', _('Pending')
         ACCEPTED = 'AC', _('Accepted')
         CANCELLED = 'CA', _('Cancelled')
@@ -75,11 +75,12 @@ class Product(models.Model):
     status = models.CharField(
         max_length=2,
         choices=Status.choices,
-        default=Status.PENDING,
+        default=Status.IN_CART,
     )
 
     def is_status(self):
         return self.status in {
+            self.Status.IN_CART,
             self.Status.PENDING,
             self.Status.ACCEPTED,
             self.Status.CANCELLED,
@@ -95,26 +96,6 @@ class ShoppingCart(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     # auto_now is added automatically when editing a post
     last_modified_date = models.DateTimeField(auto_now=True)
-
-    class Status(models.TextChoices):
-        PENDING = 'PE', _('Pending')
-        ACCEPTED = 'AC', _('Accepted')
-        CANCELLED = 'CA', _('Cancelled')
-        DELIVERED = 'DE', _('Delivered')
-
-    status = models.CharField(
-        max_length=2,
-        choices=Status.choices,
-        default=Status.PENDING,
-    )
-
-    def is_status(self):
-        return self.status in {
-            self.Status.PENDING,
-            self.Status.ACCEPTED,
-            self.Status.CANCELLED,
-            self.Status.DELIVERED,
-        }
 
     def get_total_num_items(self):
         return self.items.count()
@@ -137,6 +118,7 @@ class Testimonials(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     # auto_now is added automatically when editing a post
     last_modified_date = models.DateTimeField(auto_now=True)
+    visible = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

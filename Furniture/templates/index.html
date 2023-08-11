@@ -74,20 +74,18 @@ background-size: cover;"
 
 
     <div class="container">
-        <div class="row">
+        <div class="row d-flex align-items-center justify-content-center">
             {% for ad in popular_ads %}
-            <div class="col col-md-3">
+            <div class="col-md-3 col-sm-6 m-2 card p-0" style="width: 255px;">
 
-                <div class="card" style="width: 255px;">
-                    <a class="text-decoration-none text-reset" href="{% url 'addetails' pk=ad.pk %}">
-                        <img style="width: 255px;" src="{{MEDIA_URL}}{{ad.image.url}}" class="card-img-top"
-                             alt="Product Image">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ad.name}}</h5>
-                            <p class="card-text price">{{ad.currency}} {{ad.price}}</p>
-                        </div>
-                    </a>
-                </div>
+                <a class="text-decoration-none text-reset" href="{% url 'addetails' pk=ad.pk %}">
+                    <img style="width: 255px;" src="{{MEDIA_URL}}{{ad.image.url}}" class="card-img-top"
+                         alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ad.name}}</h5>
+                        <p class="card-text price">{{ad.currency}} {{ad.price}}</p>
+                    </div>
+                </a>
 
             </div>
             {% endfor %}
@@ -98,7 +96,7 @@ background-size: cover;"
     <div class="container">
         <div class="row">
             <div class="col d-flex justify-content-center">
-                <a href="{% url 'adcategory' %}" class="btn btn-danger mt-2" style="display: inline-flex;
+                <a href="{% url 'adcategory' %}" class="btn btn-danger mt-3" style="display: inline-flex;
 height: 37.65px;
 padding: 8px 44px;
 align-items: flex-start;
@@ -138,8 +136,8 @@ text-decoration-line: underline;">Sell Instead</a>
 </div>
 
 
-<div style="width: 100%; height: 678px; background: rgba(187, 29, 27, 0.50)"
-     class="d-flex justify-content-center align-items-center">
+<div style="background: rgba(187, 29, 27, 0.50)"
+     class="py-5 d-flex justify-content-center align-items-center">
     <div class="container">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col-lg-6 col-md-12 d-flex flex-column align-items-center mb-4">
@@ -177,7 +175,7 @@ text-decoration-line: underline;">Sell Instead</a>
         box-shadow: 0px 4px 20px 0px rgba(139, 167, 178, 0.16);
     }
 </style>
-<div style="width: 100%; height: 660px; background: #FEF49D">
+<div style="width: 100%; background: #FEF49D" class="pb-3">
     <div class="container text-center pt-5 pb-5">
         <div>
             <h1>Testimonials</h1>

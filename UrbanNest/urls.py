@@ -15,11 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, \
-    login_request, dashboard_home, shopping_cart, add_to_cart, remove_from_cart
+from django.urls import path, include
+from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, dashboard_home, shopping_cart, add_to_cart, remove_from_cart, checkout, my_orders
 from django.conf import settings
 from django.conf.urls.static import static
+
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -33,8 +33,10 @@ urlpatterns = [
                   path('ad/add_furniture_ad', add_furniture_ad, name='add_furniture_ad'),
                   path("shopping_cart", shopping_cart, name="shopping_cart"),
                   path("register", register_request, name="register"),
-                  path("login", login_request, name="login"),
+                  path("accounts/", include("django.contrib.auth.urls")),  # new
                   path("dashboard/home", dashboard_home, name="dashboard_home"),
+                  path("dashboard/my_orders", my_orders, name="my_orders"),
                   path('add_to_cart/<int:furniture_id>/', add_to_cart, name='add_to_cart'),
                   path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
+                  path('checkout/', checkout, name='checkout'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

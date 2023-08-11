@@ -22,7 +22,7 @@ class UrbanNestUserAdmin(admin.ModelAdmin):
 
 class FurnitureAdAdmin(admin.ModelAdmin):
     list_display = (
-        'seller', 'name', 'category', 'rating', 'price', 'currency', 'status', 'creation_date', 'last_modified_date',
+        'seller', 'name', 'category', 'rating', 'price', 'currency', 'creation_date', 'last_modified_date',
         'ad_duration_to')
     exclude = ('seller', 'views', 'status', 'creation_date', 'last_modified_date')
 

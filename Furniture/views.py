@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import NewUserForm, UrbanNestUserForm
@@ -53,6 +54,7 @@ def category(request):
 def adlist(request, pk, page=1):
     # Get all furniture ads for the specified category
     furniture_ads = FurnitureAd.objects.filter(category__pk=pk)
+    category = Category.objects.get(pk=pk)
 
     print(furniture_ads)
     # Number of ads to display per page
@@ -73,6 +75,7 @@ def adlist(request, pk, page=1):
 
     context = {
         'furniture_ads': page,
+        'category': category,
     }
 
     return render(request, 'ad-list.html', context=context)
@@ -90,7 +93,8 @@ def add_furniture_ad(request):
             return redirect('index')
     else:
         form = FurnitureAdForm()
-    context = {'form': form}
+    user = UrbanNestUser.objects.get(user=request.user)
+    context = {'form': form, 'user': user}
     return render(request, 'ad-add.html', context=context)
 
 
@@ -103,6 +107,9 @@ def register_request(request):
             user = user_form.save()
             profile = profile_form.save(commit=False)
             profile.user = user
+            print(request.FILES)
+            print(request.FILES['photo'])
+            profile.photo = request.FILES['photo']
             profile.save()
 
             # Create a shopping cart for the user
@@ -114,38 +121,33 @@ def register_request(request):
         user_form = NewUserForm()
         profile_form = UrbanNestUserForm()
 
-    return render(request, 'main/register.html', {
+    return render(request, 'registration/register.html', {
         'user_form': user_form,
         'profile_form': profile_form,
     })
 
 
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                messages.info(request, f"You are now logged in as {username}.")
-                return redirect("index")
-            else:
-                messages.error(request, "Invalid username or password.")
-        else:
-            messages.error(request, "Invalid username or password.")
-    form = AuthenticationForm()
-    return render(request=request, template_name="main/login.html", context={"login_form": form})
-
-
+@login_required
 def dashboard_home(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
-    context = {'user': user}
+    list_of_ads = FurnitureAd.objects.filter(seller=user)
+    context = {'user': user, 'list_of_ads': list_of_ads}
     return render(request, 'dashboard/dashboard-home.html', context=context)
 
 
+@login_required
+def my_orders(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    products = Product.objects.filter(buyer=user)
+    list_of_orders = products.filter(status='PE')
+    print(products)
+    context = {'user': user, 'list_of_orders': list_of_orders}
+    return render(request, 'dashboard/dashboard-my-orders.html', context=context)
+
+
+@login_required
 def shopping_cart(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
@@ -155,18 +157,34 @@ def shopping_cart(request):
     return render(request, 'shopping-cart.html', context=context)
 
 
+@login_required
 def add_to_cart(request, furniture_id):
     furniture = get_object_or_404(FurnitureAd, id=furniture_id)
     user = UrbanNestUser.objects.get(user=request.user)
+    if furniture.seller == user:
+        return redirect('index')
     product = Product.objects.create(buyer=user, furniture=furniture)
     cart, created = ShoppingCart.objects.get_or_create(buyer=user)
     cart.items.add(product)
     return redirect('shopping_cart')
 
 
+@login_required
 def remove_from_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     user = UrbanNestUser.objects.get(user=request.user)
     cart = ShoppingCart.objects.get(buyer=user)
     cart.items.remove(product.pk)
+    return redirect('shopping_cart')
+
+
+@login_required
+def checkout(request):
+    user = UrbanNestUser.objects.get(user=request.user)
+    cart = ShoppingCart.objects.get(buyer=user)
+    items = cart.items.all()
+    for item in items:
+        item.status = 'PE'
+        item.save()
+    cart.items.clear()
     return redirect('shopping_cart')
