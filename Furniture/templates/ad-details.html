@@ -133,9 +133,15 @@
                         <div class="product-features">Contact:<br/>{{item.seller.phone_number}}</div>
                     </div>
                 </div>
+                {% if item.seller == user %}
+                <a href="{% url 'edit_furniture' furniture_id=item.pk %}" class="btn btn-add-to-cart">Edit</a>
+                {% elif item.active == False %}
+                <h1><strong>SOLD</strong></h1>
+                {% else %}
                 <button class="btn btn-message-seller">Message Seller</button>
                 <a href="{% url 'add_to_cart' furniture_id=item.pk %}" class="btn btn-add-to-cart">+ Add to
                     Cart</a>
+                {% endif %}
             </div>
         </div>
     </div>

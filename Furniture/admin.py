@@ -69,10 +69,22 @@ class ShoppingCartAdmin(admin.ModelAdmin):
         return False
 
 
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('buyer', 'furniture', 'creation_date')
+
+    def has_view_permission(self, request, obj=None):
+        return True
+
+    def has_change_permission(self, request, obj=None):
+        if obj and request.user == obj.buyer.user:
+            return True
+        return False
+
+
 # Re-register UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 admin.site.register(UrbanNestUser, UrbanNestUserAdmin)
 admin.site.register(FurnitureAd, FurnitureAdAdmin)
-admin.site.register(Product)

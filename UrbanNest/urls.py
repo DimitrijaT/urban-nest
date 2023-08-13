@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, dashboard_home, shopping_cart, add_to_cart, remove_from_cart, checkout, my_orders
+from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, \
+    dashboard_home, shopping_cart, add_to_cart, remove_from_cart, checkout, my_orders, offers, offer_accept, \
+    offer_decline
 from django.conf import settings
 from django.conf.urls.static import static
-
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
@@ -36,6 +37,9 @@ urlpatterns = [
                   path("accounts/", include("django.contrib.auth.urls")),  # new
                   path("dashboard/home", dashboard_home, name="dashboard_home"),
                   path("dashboard/my_orders", my_orders, name="my_orders"),
+                  path("dashboard/offers", offers, name="offers"),
+                  path("offer_accept/<int:product_id>", offer_accept, name="offer_accept"),
+                  path("offer_decline/<int:product_id>", offer_decline, name="offer_decline"),
                   path('add_to_cart/<int:furniture_id>/', add_to_cart, name='add_to_cart'),
                   path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
                   path('checkout/', checkout, name='checkout'),

@@ -17,7 +17,7 @@ from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 def index(request):
     # get 8 most viewed ads
-    queryset = FurnitureAd.objects.order_by('-views')[:8]
+    queryset = FurnitureAd.objects.filter(active=True).order_by('-views')[:8]
     context = {'popular_ads': queryset}
     return render(request, 'index.html', context=context)
 
@@ -53,7 +53,7 @@ def category(request):
 
 def adlist(request, pk, page=1):
     # Get all furniture ads for the specified category
-    furniture_ads = FurnitureAd.objects.filter(category__pk=pk)
+    furniture_ads = FurnitureAd.objects.filter(category__pk=pk, active=True)
     category = Category.objects.get(pk=pk)
 
     print(furniture_ads)
@@ -137,11 +137,49 @@ def dashboard_home(request):
 
 
 @login_required
+def offers(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    offers = Product.objects.filter(furniture__seller=user)
+    context = {'user': user, 'offers': offers}
+    return render(request, 'dashboard/dashboard-offers.html', context=context)
+
+
+@login_required
+def offer_accept(request, product_id):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    offer = Product.objects.get(id=product_id)
+    offer.status = 'AC'
+    offer.furniture.active = False
+    offer.furniture.save()
+    offer.save()
+    user_offers = Product.objects.filter(furniture__seller=user, status='PE', furniture__pk=offer.furniture.pk)
+    print(user_offers)
+    for o in user_offers:
+        if o.pk != offer.pk:
+            o.status = 'CA'
+            o.save()
+
+    return redirect('offers')
+
+
+@login_required
+def offer_decline(request, product_id):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    offer = Product.objects.get(id=product_id)
+    offer.status = 'RE'
+    offer.save()
+    return redirect('offers')
+
+
+@login_required
 def my_orders(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
     products = Product.objects.filter(buyer=user)
-    list_of_orders = products.filter(status='PE')
+    list_of_orders = products.filter(status='PE') | products.filter(status='AC') | products.filter(status='RE')
     print(products)
     context = {'user': user, 'list_of_orders': list_of_orders}
     return render(request, 'dashboard/dashboard-my-orders.html', context=context)
@@ -162,7 +200,7 @@ def add_to_cart(request, furniture_id):
     furniture = get_object_or_404(FurnitureAd, id=furniture_id)
     user = UrbanNestUser.objects.get(user=request.user)
     if furniture.seller == user:
-        return redirect('index')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     product = Product.objects.create(buyer=user, furniture=furniture)
     cart, created = ShoppingCart.objects.get_or_create(buyer=user)
     cart.items.add(product)
@@ -175,6 +213,7 @@ def remove_from_cart(request, product_id):
     user = UrbanNestUser.objects.get(user=request.user)
     cart = ShoppingCart.objects.get(buyer=user)
     cart.items.remove(product.pk)
+    product.delete()
     return redirect('shopping_cart')
 
 

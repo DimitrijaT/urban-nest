@@ -13,6 +13,6 @@ def stars_range(value):
 
 @register.filter
 def count_furniture_ads(category):
-    return FurnitureAd.objects.filter(category=category).count()
+    return FurnitureAd.objects.filter(category=category, active=True).count()
 
 
