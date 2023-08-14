@@ -99,7 +99,7 @@
                 {% if ad.active == True %}
                 <td class="align-middle">
                     <div class="d-flex justify-content-around">
-                        <a href="" class="text-warning"><i class='fas fa-pen'></i></a>
+                        <a href="{% url 'edit_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i class='fas fa-pen'></i></a>
                         <a href="{% url 'delete_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i class='fas fa-trash'></i></a>
                     </div>
                 </td>

@@ -1,16 +1,15 @@
 {% extends "dashboard/base-dashboard.html" %}
-
 {% block content %}
 
-
-<div class="container my-5">
-    <h3>Add Post</h3>
+<!-- edit_settings.html -->
+<div class="container py-5">
+    <h1>Edit Settings</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button class="btn btn-success">Save Changes</button>
+        <input type="submit" value="Save Changes">
     </form>
 </div>
 
-{% endblock %}
 
+{% endblock %}

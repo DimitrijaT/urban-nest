@@ -4,11 +4,11 @@
 
 
 <div class="container my-5">
-    <h3>Add Post</h3>
+    <h3>Change an existing post</h3>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button class="btn btn-success">Save Changes</button>
+        {{form.as_p}}
+        <button class="btn btn-success">Post It!</button>
     </form>
 </div>
 

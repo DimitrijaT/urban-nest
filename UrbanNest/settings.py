@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Furniture',
     'cart',
+    'django_filters'
 
 ]
 

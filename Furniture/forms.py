@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 
+# import django_filters
+
+
 class FurnitureAdForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FurnitureAdForm, self).__init__(*args, **kwargs)

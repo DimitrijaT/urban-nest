@@ -61,31 +61,30 @@ def category(request):
     return render(request, 'ad-category.html', context=context)
 
 
-def adlist(request, pk, page=1):
-    # Get all furniture ads for the specified category
-    furniture_ads = FurnitureAd.objects.filter(category__pk=pk, active=True)
-    category = Category.objects.get(pk=pk)
+def adlist(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    search_query = request.GET.get('search_query', '')
+    page = request.GET.get('page')
 
-    print(furniture_ads)
-    # Number of ads to display per page
-    items_per_page = 10
+    # Filter furniture ads by category and search query
+    furniture_ads = FurnitureAd.objects.filter(category=category, active=True)
+    if search_query:
+        furniture_ads = furniture_ads.filter(name__icontains=search_query)
 
-    # Create a Paginator instance
+    items_per_page = 4
     paginator = Paginator(furniture_ads, items_per_page)
 
     try:
-        # Get the specified page from the paginator
         page = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver the first page
         page = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g., 9999), deliver the last page
         page = paginator.page(paginator.num_pages)
 
     context = {
         'furniture_ads': page,
         'category': category,
+        'search_query': search_query,
     }
 
     return render(request, 'ad-list.html', context=context)
@@ -100,7 +99,7 @@ def add_furniture_ad(request):
             furniture_ad.seller = UrbanNestUser.objects.get(user=request.user)
 
             furniture_ad.save()
-            return redirect('index')
+            return redirect('dashboard_home')
     else:
         form = FurnitureAdForm()
     user = UrbanNestUser.objects.get(user=request.user)
@@ -109,12 +108,29 @@ def add_furniture_ad(request):
 
 
 @login_required
+def edit_furniture_ad(request, ad_id):
+    furniture_ad = get_object_or_404(FurnitureAd, pk=ad_id, seller__user=request.user)
+    if furniture_ad.active is False:
+        return redirect('index')
+    if request.method == 'POST':
+        form = FurnitureAdForm(request.POST, request.FILES, instance=furniture_ad)
+        if form.is_valid():
+            furniture_ad = form.save()
+            return redirect('dashboard_home')
+    else:
+        form = FurnitureAdForm(instance=furniture_ad)
+
+    context = {'form': form, 'furniture_ad': furniture_ad}
+    return render(request, 'ad-edit.html', context=context)
+
+
+@login_required
 def delete_furniture_ad(request, ad_id):
     ad = get_object_or_404(FurnitureAd, id=ad_id)
 
     if ad.seller.user != request.user and ad.visible is True:
         # Redirect or show an error message if the logged-in user is not the ad's seller
-        return redirect('dashboard_home')  # Replace 'index' with the appropriate URL
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     ad.delete()
     return redirect('dashboard_home')
@@ -172,6 +188,23 @@ def register_request(request):
         'user_form': user_form,
         'profile_form': profile_form,
     })
+
+
+@login_required
+def edit_settings(request):
+    user_settings = UrbanNestUser.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = UrbanNestUserForm(request.POST, request.FILES, instance=user_settings)
+        if form.is_valid():
+            form.save()
+            return redirect('edit_settings')  # Redirect back to the edit settings page
+    else:
+        form = UrbanNestUserForm(instance=user_settings)
+
+    user = UrbanNestUser.objects.get(user=request.user)
+    context = {'form': form, 'user': user}
+    return render(request, 'registration/edit_settings.html', context=context)
 
 
 @login_required
