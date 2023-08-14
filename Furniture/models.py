@@ -103,7 +103,7 @@ class Product(models.Model):
 
 class ShoppingCart(models.Model):
     buyer = models.OneToOneField(UrbanNestUser, on_delete=models.CASCADE)
-    items = models.ManyToManyField(Product)
+    items = models.ManyToManyField(Product, blank=True)
 
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -125,11 +125,13 @@ class ShoppingCart(models.Model):
 
 #  Add Testimonials!
 
-class Testimonials(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    message = models.TextField()
+class Testimonial(models.Model):
+    user = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='images/testimonials', null=True, blank=True)
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    quote = models.TextField()
+    nickname = models.CharField(max_length=100)
+
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
     # auto_now is added automatically when editing a post
@@ -137,4 +139,60 @@ class Testimonials(models.Model):
     visible = models.BooleanField(default=False)
 
     def __str__(self):
+        return self.nickname
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=255)
+    answer = models.TextField()
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question
+
+
+class Contact(models.Model):
+    user = models.ForeignKey(UrbanNestUser, on_delete=models.SET_NULL, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
         return self.name
+
+
+class About(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(upload_to='images/about', null=True, blank=True)
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
+class FrontCover(models.Model):
+    active = models.BooleanField(default=True)
+    title = models.CharField(max_length=255)
+    subtitle_1 = models.CharField(max_length=255)
+    subtitle_2 = models.CharField(max_length=255)
+    buy_button = models.CharField(max_length=255)
+    sell_button = models.CharField(max_length=255)
+    cover_page = models.ImageField(upload_to='images/front_cover', null=True, blank=True)
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

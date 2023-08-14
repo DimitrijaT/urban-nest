@@ -1,22 +1,19 @@
 <!--about page-->
 {% extends 'base_generic.html' %}
 {% block content %}
-<div class="container">
+<div class="container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>About Us</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, alias aliquid amet aperiam
-                asperiores atque autem blanditiis consequatur cumque cupiditate delectus deleniti doloremque
-                doloribus ducimus ea earum eius eligendi eos error est et eum eveniet excepturi expedita facilis
-                fugiat fugit harum hic id illum impedit in incidunt ipsa ipsum iste iure laboriosam laborum
-                laudantium libero magnam magni maiores maxime minima minus molestiae mollitia natus nemo neque
-                nihil nisi nobis non nostrum nulla numquam obcaecati officia officiis omnis optio pariatur
-                perferendis perspiciatis placeat porro possimus praesentium provident quae quas quasi qui quia
-                quisquam quod quos ratione recusandae rem repellat repellendus reprehenderit repudiandae rerum
-                saepe sapiente sequi similique sit soluta sunt suscipit tempora temporibus tenetur totam ullam
-                unde vel veniam veritatis voluptas voluptate voluptatem voluptates voluptatibus voluptatum.
-            </p>
+        <div class="col-md-8 offset-md-2">
+            <div class="card d-flex align-items-center justify-content-center flex-row">
+                {% if about.image %}
+                <img src="{{ about.image.url }}" class="w-25 img-fluid card-img-top" alt="{{ about.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ about.title }}</h2>
+                    <p class="card-text">{{ about.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ about.creation_date }}</small></p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

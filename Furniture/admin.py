@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from .models import UrbanNestUser, FurnitureAd, Product, ShoppingCart, Category
+from .models import UrbanNestUser, FurnitureAd, Product, ShoppingCart, Category, Testimonial, FAQ, Contact, About, \
+    FrontCover
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
@@ -69,8 +70,6 @@ class ShoppingCartAdmin(admin.ModelAdmin):
         return False
 
 
-
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('buyer', 'furniture', 'creation_date')
@@ -90,3 +89,8 @@ admin.site.register(User, UserAdmin)
 
 admin.site.register(UrbanNestUser, UrbanNestUserAdmin)
 admin.site.register(FurnitureAd, FurnitureAdAdmin)
+admin.site.register(Testimonial)
+admin.site.register(FAQ)
+admin.site.register(Contact)
+admin.site.register(About)
+admin.site.register(FrontCover)

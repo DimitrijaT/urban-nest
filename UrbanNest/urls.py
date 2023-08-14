@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, \
     dashboard_home, shopping_cart, add_to_cart, remove_from_cart, checkout, my_orders, offers, offer_accept, \
-    offer_decline
+    offer_decline, delete_furniture_ad
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -37,6 +37,7 @@ urlpatterns = [
                   path("accounts/", include("django.contrib.auth.urls")),  # new
                   path("dashboard/home", dashboard_home, name="dashboard_home"),
                   path("dashboard/my_orders", my_orders, name="my_orders"),
+                  path("delete_furniture_ad/<int:ad_id>", delete_furniture_ad, name="delete_furniture_ad"),
                   path("dashboard/offers", offers, name="offers"),
                   path("offer_accept/<int:product_id>", offer_accept, name="offer_accept"),
                   path("offer_decline/<int:product_id>", offer_decline, name="offer_decline"),

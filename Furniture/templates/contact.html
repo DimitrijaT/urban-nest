@@ -1,23 +1,52 @@
 <!--contact page-->
 {% extends 'base_generic.html' %}
 {% block content %}
-<div class="container">
+
+<style>
+    /* You can keep the previous CSS for .contact-container, .contact-card, and .contact-title if needed */
+
+    .contact-label {
+        font-size: 18px;
+    }
+
+    .contact-input {
+        margin-bottom: 20px;
+    }
+
+    .contact-button {
+        font-size: 18px;
+    }
+
+</style>
+
+<div class="container contact-container mt-4">
     <div class="row">
-        <div class="col-md-12">
-            <h1>Contact Us</h1>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium, alias aliquid amet aperiam
-                asperiores atque autem blanditiis consequatur cumque cupiditate delectus deleniti doloremque
-                doloribus ducimus ea earum eius eligendi eos error est et eum eveniet excepturi expedita facilis
-                fugiat fugit harum hic id illum impedit in incidunt ipsa ipsum iste iure laboriosam laborum
-                laudantium libero magnam magni maiores maxime minima minus molestiae mollitia natus nemo neque
-                nihil nisi nobis non nostrum nulla numquam obcaecati officia officiis omnis optio pariatur
-                perferendis perspiciatis placeat porro possimus praesentium provident quae quas quasi qui quia
-                quisquam quod quos ratione recusandae rem repellat repellendus reprehenderit repudiandae rerum
-                saepe sapiente sequi similique sit soluta sunt suscipit tempora temporibus tenetur totam ullam
-                unde vel veniam veritatis voluptas voluptate voluptatem voluptates voluptatibus voluptatum.
-            </p>
+        <div class="col-md-6 offset-md-3">
+            <div class="card contact-card">
+                <div class="card-body">
+                    <h2 class="card-title contact-title">Contact Us</h2>
+                    <form method="post" class="contact-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name" class="contact-label">Name</label>
+                            <input type="text" class="form-control contact-input" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="contact-label">Email</label>
+                            <input type="email" class="form-control contact-input" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="contact-label">Message</label>
+                            <textarea class="form-control contact-input" id="message" name="message" rows="4"
+                                      required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning btn-block contact-button">Submit</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+
 {% endblock %}

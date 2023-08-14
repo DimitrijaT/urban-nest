@@ -41,7 +41,8 @@ letter-spacing: -0.9px;">Your cart items</h1>
     {% for item in items %}
     <div class="row mt-3">
         <div class="col-md-10 d-flex justify-content-start">
-            <img class="rounded shadow-sm"  style="width: 124.38px; height: 122.48px" src="{{MEDIA_URL}}{{ item.furniture.image.url }}"/>
+            <img class="rounded shadow-sm" style="width: 124.38px; height: 122.48px"
+                 src="{{MEDIA_URL}}{{ item.furniture.image.url }}"/>
             <div class="mx-3 d-flex flex-column align-items-start justify-content-center">
                 {{ item.furniture.name }}
                 <a class="text-warning" href="{% url 'remove_from_cart' item.pk %}">remove</a>

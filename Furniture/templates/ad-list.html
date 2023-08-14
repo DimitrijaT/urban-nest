@@ -95,7 +95,7 @@
     </div>
 
 
-    <div class="container mt-2" >
+    <div class="container mt-2">
         <div class="row  d-flex align-items-center  justify-content-center justify-content-md-start">
             {% load custom_filters %}
             {% for furniture_item in furniture_ads %}
@@ -110,9 +110,12 @@
                                  alt="Product Image">
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body pt-2">
                         <h5 class="card-title">{{ furniture_item.name }}</h5>
-                        <p class="card-text price">{{ furniture_item.views }} Views</p>
+                        <div class="d-flex flex-row justify-content-between"><p class="text-muted card-text">{{ furniture_item.views }} Views</p>
+                            <p class="card-text text-success price">{{ furniture_item.currency }} {{ furniture_item.price }}</p>
+                        </div>
+
                     </div>
                 </a>
 

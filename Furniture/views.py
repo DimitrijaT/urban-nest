@@ -6,7 +6,7 @@ from .forms import NewUserForm, UrbanNestUserForm
 from django.contrib.auth import login
 from django.contrib import messages
 from .forms import FurnitureAdForm
-from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category
+from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category, Testimonial, FrontCover, About, Contact
 from datetime import datetime, timedelta
 # from .forms import
 from django.http import HttpResponse, HttpResponseRedirect
@@ -18,15 +18,25 @@ from django.contrib.auth.forms import AuthenticationForm
 def index(request):
     # get 8 most viewed ads
     queryset = FurnitureAd.objects.filter(active=True).order_by('-views')[:8]
-    context = {'popular_ads': queryset}
+    testimonials = Testimonial.objects.all()
+    front_cover = FrontCover.objects.get(active=True)
+    context = {'popular_ads': queryset, 'testimonials': testimonials, 'front_cover': front_cover}
     return render(request, 'index.html', context=context)
 
 
 def about(request):
-    return render(request, 'about.html')
+    about_obj = About.objects.latest('creation_date')  # Assuming you want the latest about entry
+    context = {'about': about_obj}
+    return render(request, 'about.html', context=context)
 
 
 def contact(request):
+    if request.method == 'POST':
+        user = UrbanNestUser.objects.get(user=request.user)
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        Contact.objects.create(user=user, name=name, email=email, message=message)
     return render(request, 'contact.html')
 
 
@@ -98,6 +108,40 @@ def add_furniture_ad(request):
     return render(request, 'ad-add.html', context=context)
 
 
+@login_required
+def delete_furniture_ad(request, ad_id):
+    ad = get_object_or_404(FurnitureAd, id=ad_id)
+
+    if ad.seller.user != request.user and ad.visible is True:
+        # Redirect or show an error message if the logged-in user is not the ad's seller
+        return redirect('dashboard_home')  # Replace 'index' with the appropriate URL
+
+    ad.delete()
+    return redirect('dashboard_home')
+
+
+## TODO:NEEDS TESTING ##
+@login_required
+def edit_furniture_ad(request, ad_id):
+    ad = get_object_or_404(FurnitureAd, id=ad_id)
+
+    if ad.seller.user != request.user:
+        # Redirect or show an error message if the logged-in user is not the ad's seller
+        return redirect('index')  # Replace 'index' with the appropriate URL
+
+    if request.method == 'POST':
+        form = FurnitureAdForm(request.POST, request.FILES, instance=ad)
+        if form.is_valid():
+            form.save()
+            return redirect('index')  # Redirect to a suitable page after editing
+    else:
+        form = FurnitureAdForm(instance=ad)
+
+    user = ad.seller
+    context = {'form': form, 'user': user}
+    return render(request, 'ad-edit.html', context=context)
+
+
 def register_request(request):
     if request.method == 'POST':
         user_form = NewUserForm(request.POST)
@@ -111,12 +155,14 @@ def register_request(request):
             print(request.FILES)
             print(request.FILES['photo'])
             profile.photo = request.FILES['photo']
+            profile.save()
             # Create a shopping cart for the user
             profile_shopping_cart = ShoppingCart.objects.create(buyer=profile)
+            profile_shopping_cart.save()
             profile.shopping_cart = profile_shopping_cart
             profile.save()
 
-            return redirect('home')  # Replace 'home' with the URL name for the home page
+            return redirect('/')
 
     else:
         user_form = NewUserForm()
@@ -191,8 +237,11 @@ def shopping_cart(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
     user_shopping_cart = user.shopping_cart
-    items = user_shopping_cart.items.all()
-    context = {'shopping_cart': user_shopping_cart, 'items': items}
+    if user_shopping_cart is not None:
+        items = user_shopping_cart.items.all()
+        context = {'shopping_cart': user_shopping_cart, 'items': items}
+    else:
+        context = {'shopping_cart': user_shopping_cart}
     return render(request, 'shopping-cart.html', context=context)
 
 

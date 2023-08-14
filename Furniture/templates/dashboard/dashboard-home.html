@@ -2,12 +2,76 @@
 
 {% block content %}
 
+<style>/* Styles for the button */
+.btn-fancy {
+    position: relative;
+    display: inline-block;
+    padding: 15px 40px;
+    background: linear-gradient(to right, #ff512f, #dd2476);
+    border: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    overflow: hidden;
+    transition: transform 0.3s, filter 0.3s, box-shadow 0.3s;
+    z-index: 1;
+}
+
+.btn-fancy .btn-text {
+    position: relative;
+    z-index: 2;
+}
+
+.btn-fancy .btn-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: skewX(-20deg);
+    z-index: 1;
+    animation: shine 2s infinite;
+    transition: left 0.3s;
+}
+
+.btn-fancy .btn-shine-2 {
+    background: rgba(255, 255, 255, 0.15);
+    animation: shine 3s infinite reverse;
+}
+
+.btn-fancy:hover {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-fancy:hover .btn-shine {
+    left: 100%;
+}
+
+@keyframes shine {
+    0%, 100% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+}
+
+</style>
 
 <div class="container my-5">
-    <div class="d-flex justify-content-between"><h3><strong><i
+    <div class="d-flex justify-content-between align-items-center"><h3><strong><i
             class='fas fa-home' style='font-size:36px'></i> My Products</strong></h3>
-        <a href="{% url 'add_furniture_ad' %}" class="btn btn-warning" style=" width: 199px; height: 44px;
-           background: #E3B930; border-radius: 4px">Sell</a></div>
+        <a href="{% url 'add_furniture_ad' %}" class="btn-fancy text-decoration-none">
+            <span class="btn-text">Sell</span>
+            <span class="btn-shine"></span>
+            <span class="btn-shine btn-shine-2"></span>
+        </a>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -36,7 +100,7 @@
                 <td class="align-middle">
                     <div class="d-flex justify-content-around">
                         <a href="" class="text-warning"><i class='fas fa-pen'></i></a>
-                        <a href="" class="text-warning"><i class='fas fa-trash'></i></a>
+                        <a href="{% url 'delete_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i class='fas fa-trash'></i></a>
                     </div>
                 </td>
                 {% else %}
@@ -51,4 +115,5 @@
     </div>
 
 
-    {% endblock %}
+</div>
+{% endblock %}

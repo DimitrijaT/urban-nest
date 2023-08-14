@@ -4,7 +4,7 @@
 
 <div class="shadow" style="border-radius: 0px 0px 215px 215px; width: 100%;
 height: 100vh;
-background-image: url(https://i.imgur.com/wLWIwBg.jpg);
+background-image: url('{{MEDIA_URL}}{{front_cover.cover_page.url}}');
 background-position: center;
 background-size: 100%;
 background-repeat: no-repeat;"
@@ -19,23 +19,21 @@ background-repeat: no-repeat;"
          backdrop-filter: blur(5px);"
     >
         <div class="text-center mb-md-4 mb-3" style="color: #1D252C;">
-            <h1 class="fw-bold" style="font-family: Poppins,serif; font-size: 32px; line-height: 1.8;">Rediscover
-                Furniture
-                Reselling</h1>
+            <h1 class="fw-bold" style="font-family: Poppins,serif; font-size: 32px; line-height: 1.8;">
+                {{front_cover.title}}</h1>
         </div>
         <div class="text-center mb-md-4 mb-3" style="color: #000;">
-            <p class="fw-normal" style="font-family: Inter,serif; font-size: 18px; line-height: 1.42222;">Rediscover the
-                Art
-                of Furniture Reselling.<br>Unleash the Potential of Pre-Loved Furniture.</p>
+            <p class="fw-normal" style="font-family: Inter,serif; font-size: 18px; line-height: 1.42222;">
+                {{front_cover.subtitle_1}} <br> {{front_cover.subtitle_2}}</p>
         </div>
 
         <div class="d-grid gap-3 d-md-flex justify-content-md-center">
-            <a href="{% url 'adcategory' %}" class="btn btn-danger" style="border-radius: 50px;">Discover Unique
-                Treasures</a>
+            <a href="{% url 'adcategory' %}" class="btn btn-danger" style="border-radius: 50px;">{{front_cover.buy_button}}</a>
             {% if user.is_authenticated %}
-            <a href="{% url 'add_furniture_ad' %}" class="btn btn-warning" style="border-radius: 50px;">Sell</a>
+            <a href="{% url 'add_furniture_ad' %}" class="btn btn-warning" style="border-radius: 50px;">{{front_cover.sell_button}}</a>
             {% else %}
-            <a href="{% url 'login' %}" class="btn btn-warning" style="border-radius: 50px;">Sell</a>
+            <a href="{% url 'login' %}" class="btn btn-warning"
+               style="border-radius: 50px;">{{front_cover.sell_button}}</a>
             {% endif %}
         </div>
     </div>
@@ -202,50 +200,71 @@ text-decoration-line: underline;">Sell Instead</a>
         <div>Some quotes from our happy customers</div>
     </div>
 
+    <style>
+        .testimonial-card {
+            background: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            perspective: 1000px;
+        }
+
+        .testimonial-card:hover {
+            transform: rotateY(10deg) scale(1.05);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+    </style>
+
     <div class="container">
         <div class="row">
+            {% for testimonial in testimonials %}
             <div class="col-lg-4 col-md-6 col-sm-12 d-flex flex-column justify-content-center align-items-center mb-4">
-                <div class="testimonial-card d-flex flex-column justify-content-center align-items-center p-4 mb-4">
+                <div class="testimonial-card d-flex flex-column justify-content-start align-items-center p-4 mb-4"
+                     style="height: 400px; width:280px;">
                     <div style="width: 134px; height: 134px; background: white; box-shadow: 0px 4px 20px 0px rgba(139, 167, 178, 0.16); border-radius: 50%;"
                          class="d-flex justify-content-center align-items-center mb-4">
-                        <img style="width: 100px; border-radius: 50%;" src="https://i.imgur.com/svgFzb0.png" alt="">
+                        <img style="width: 100%; height: 100%; border-radius: 50%;"
+                             src="{{MEDIA_URL}}{{testimonial.image.url}}"
+                             alt="">
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="179" height="32" viewBox="0 0 179 32" fill="none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="179" height="32" viewBox="0 0 179 32"
-                             fill="none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="179" height="32" viewBox="0 0 179 32"
-                                 fill="none">
-                                <path d="M14.7315 0.189819L18.0338 10.8989H28.7202L20.0747 17.5175L23.377 28.2265L14.7315 21.6079L6.08604 28.2265L9.38832 17.5175L0.742838 10.8989H11.4292L14.7315 0.189819Z"
-                                      fill="#BC1D1B"/>
-                                <path d="M50.5091 0.189819L53.8114 10.8989H64.4978L55.8523 17.5175L59.1546 28.2265L50.5091 21.6079L41.8636 28.2265L45.1659 17.5175L36.5204 10.8989H47.2068L50.5091 0.189819Z"
-                                      fill="#BC1D1B"/>
-                                <path d="M86.2867 0.189819L89.589 10.8989H100.275L91.6299 17.5175L94.9322 28.2265L86.2867 21.6079L77.6412 28.2265L80.9435 17.5175L72.298 10.8989H82.9844L86.2867 0.189819Z"
-                                      fill="#BC1D1B"/>
-                                <path d="M122.065 0.189819L125.367 10.8989H136.053L127.408 17.5175L130.71 28.2265L122.065 21.6079L113.419 28.2265L116.721 17.5175L108.076 10.8989H118.762L122.065 0.189819Z"
-                                      fill="#BC1D1B"/>
-                                <path d="M164.202 0.189819L167.505 10.8989H178.191L169.546 17.5175L172.848 28.2265L164.202 21.6079L155.557 28.2265L158.859 17.5175L150.214 10.8989H160.9L164.202 0.189819Z"
-                                      fill="#BC1D1B"/>
-                                <path d="M164.202 0.189819L167.505 10.8989H178.191L169.546 17.5175L172.848 28.2265L164.202 21.6079L155.557 28.2265L158.859 17.5175L150.214 10.8989H160.9L164.202 0.189819Z"
-                                      fill="url(#paint0_linear_1_58)"/>
-                                <defs>
-                                    <linearGradient id="paint0_linear_1_58" x1="167.946" y1="19.5627" x2="138.508"
-                                                    y2="17.2346"
-                                                    gradientUnits="userSpaceOnUse">
-                                        <stop stop-color="white"/>
-                                        <stop offset="1" stop-color="white" stop-opacity="0"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </svg>
-                    </svg>
+
+                    <style>
+                        .star {
+                            font-size: 32px;
+                            color: rgba(255, 0, 0, 0.76); /* Red color */
+                            text-shadow: 0 0 10px rgba(255, 128, 128, 0.7), 0 0 10px rgba(255, 178, 178, 0.5), 0 0 15px rgba(255, 178, 178, 0.3);
+                            animation: pulsate 5s infinite;
+                        }
+
+                        @keyframes pulsate {
+                            0%, 100% {
+                                opacity: 0.8;
+                                text-shadow: 0 0 5px rgba(255, 178, 178, 0.7), 0 0 10px rgba(255, 178, 178, 0.5), 0 0 15px rgba(255, 178, 178, 0.3);
+                            }
+                            50% {
+                                opacity: 1;
+                                text-shadow: 0 0 10px rgba(255, 178, 178, 0.7), 0 0 20px rgba(255, 178, 178, 0.5), 0 0 30px rgba(255, 178, 178, 0.3);
+                            }
+                        }
+
+
+                    </style>
+                    {% load custom_filters %}
+                    <div class="d-flex flex-row mt-0">
+                        {% for star in testimonial.rating|stars_range %}
+                        <span class="star">&#9733;</span>
+                        {% endfor %}
+                    </div>
                     <p style="color: #1D293F; text-align: center; font-family: Poppins; font-size: 18px; font-weight: 500; line-height: 28.8px;">
-                        "UrbanNest is a great platform! I've found stunning pieces that add elegance to my home."
+                        "{{testimonial.quote}}"
                     </p>
                     <p style="color: #7C8087; text-align: center; font-family: Actor; font-size: 18px; font-weight: 400; line-height: normal;">
-                        Luisa
+                        {{testimonial.nickname}}
                     </p>
                 </div>
             </div>
+            {% endfor %}
 
             <!-- Repeat the above div for each testimonial -->
 
