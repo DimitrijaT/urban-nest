@@ -69,6 +69,8 @@ class ShoppingCartAdmin(admin.ModelAdmin):
         return False
 
 
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('buyer', 'furniture', 'creation_date')

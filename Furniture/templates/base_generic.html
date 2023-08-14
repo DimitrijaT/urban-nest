@@ -61,6 +61,27 @@
                     </div>
                 </div>
             </a>
+            <div class="navbar-nav d-block d-lg-none">
+                <div class="row">
+                    <div class="col">
+                        {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'shopping_cart' %}">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                        </a>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                    <div class="col">
+                        {% if user.is_authenticated %}
+                        <a class="nav-link" href="{% url 'dashboard_home' %}">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                        </a>
+                        {% else %}
+                        <a class="nav-link" href="{% url 'login' %}">Please log in.</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
 
 
             <!-- Mobile Menu Button -->
@@ -84,22 +105,27 @@
 
 
                 </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'shopping_cart' %}">
-                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        {% if user.is_authenticated %}
-                        <a class="nav-link" href="{% url 'dashboard_home' %}">
-                            {{ user.get_username }} <i class="fa fa-user" aria-hidden="true"></i>
-                        </a>
-                        {% else %}
-                        <a class="nav-link" href="{% url 'login' %}">Please log in.</a>
-                        {% endif %}
-                    </li>
-                </ul>
+                <div class="navbar-nav ms-auto mb-2 mb-lg-0 d-none d-lg-block">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            <a class="nav-link" href="{% url 'shopping_cart' %}">
+                                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                            </a>
+                            {% else %}
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            <a class="nav-link" href="{% url 'dashboard_home' %}">
+                                {{ user.get_username }} <i class="fa fa-user" aria-hidden="true"></i>
+                            </a>
+                            {% else %}
+                            <a class="nav-link" href="{% url 'login' %}">Please log in.</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>

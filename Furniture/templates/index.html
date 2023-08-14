@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<div style="border-radius: 0px 0px 215px 215px; width: 100%;
+<div class="shadow" style="border-radius: 0px 0px 215px 215px; width: 100%;
 height: 100vh;
-background-image: url(https://i.imgur.com/bTKROCk.jpg);
+background-image: url(https://i.imgur.com/wLWIwBg.jpg);
 background-position: center;
-background-repeat: no-repeat;
-background-size: cover;"
+background-size: 100%;
+background-repeat: no-repeat;"
      class="pt-md-5 pt-3"
 >
     <div class="container d-flex align-items-center justify-content-center flex-column"
@@ -156,11 +156,31 @@ text-decoration-line: underline;">Sell Instead</a>
                     <button class="btn btn-danger">Learn More</button>
                 </div>
             </div>
+            <style>
+                .rotate-container {
+                    width: 434px;
+                    height: 434px;
+                    background: white;
+                    box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.25);
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: transform 0.5s ease-in-out;
+                }
 
+                .rotate-container:hover {
+                    transform: rotate(360deg);
+                }
+
+                .image {
+                    width: 400px;
+                    border-radius: 20%;
+                }
+            </style>
             <div class="col-lg-6 col-md-12 d-flex justify-content-center align-items-center mb-4">
-                <div style="width: 434px; height: 434px; background: white; box-shadow: 8px 21px 57px -2px rgba(0, 0, 0, 0.25); border-radius: 50%;"
-                     class="d-flex justify-content-center align-items-center">
-                    <img style="width: 400px; border-radius: 20%;" src="https://i.imgur.com/svgFzb0.png" alt="">
+                <div class="rotate-container">
+                    <img class="image" src="https://i.imgur.com/svgFzb0.png" alt="">
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class UrbanNestUser(models.Model):
@@ -38,15 +39,26 @@ class FurnitureAd(models.Model):
     seller = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    rating = models.IntegerField()
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     description = models.TextField()
     price = models.IntegerField()
-    currency = models.CharField(max_length=3)
+    CURRENCY_CHOICES = [
+        ('MKD', 'Denar'),
+        ('EUR', 'Euro'),
+        ('USD', 'Dollar'),
+        # Add more currencies as needed
+    ]
+
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES)
     width = models.IntegerField()
     length = models.IntegerField()
     height = models.IntegerField()
     weight = models.IntegerField()
-    unit_weight = models.CharField(max_length=100)
+    UNIT_CHOICES = [
+        ('kg', 'Kilograms'),
+        ('lb', 'Pounds'),
+    ]
+    unit_weight = models.CharField(max_length=100, choices=UNIT_CHOICES)
     image = models.ImageField(upload_to='images/furnitures', null=True, blank=True)
     # auto_now_add is added automatically when creating a post
     creation_date = models.DateTimeField(auto_now_add=True)
@@ -106,6 +118,9 @@ class ShoppingCart(models.Model):
         for item in self.items.all():
             total += item.furniture.price
         return total
+
+    def __str__(self):
+        return f'{self.buyer.first_name} {self.buyer.last_name}\'s shopping cart'
 
 
 #  Add Testimonials!

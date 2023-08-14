@@ -133,8 +133,8 @@
                         <div class="product-features">Contact:<br/>{{item.seller.phone_number}}</div>
                     </div>
                 </div>
-                {% if item.seller == user %}
-                <a href="{% url 'edit_furniture' furniture_id=item.pk %}" class="btn btn-add-to-cart">Edit</a>
+                {% if item.seller.user == user %}
+                <a href="" class="btn btn-add-to-cart">Edit</a>
                 {% elif item.active == False %}
                 <h1><strong>SOLD</strong></h1>
                 {% else %}

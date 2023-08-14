@@ -4,7 +4,8 @@
 
 
 <div class="container my-5">
-    <div class="d-flex justify-content-between"><h3><strong>Product List</strong></h3>
+    <div class="d-flex justify-content-between"><h3><strong><i
+            class='fas fa-home' style='font-size:36px'></i> My Products</strong></h3>
         <a href="{% url 'add_furniture_ad' %}" class="btn btn-warning" style=" width: 199px; height: 44px;
            background: #E3B930; border-radius: 4px">Sell</a></div>
     <div class="table-responsive">
@@ -31,13 +32,18 @@
                 <td class="align-middle">{{ad.currency}} {{ad.price}}</td>
                 <td class="align-middle">{{ad.creation_date}}</td>
                 <td class="align-middle">{{ad.ad_duration_to}}</td>
+                {% if ad.active == True %}
                 <td class="align-middle">
                     <div class="d-flex justify-content-around">
                         <a href="" class="text-warning"><i class='fas fa-pen'></i></a>
                         <a href="" class="text-warning"><i class='fas fa-trash'></i></a>
                     </div>
-
                 </td>
+                {% else %}
+                <td class="align-middle text-center">
+                    /
+                </td>
+                {% endif %}
             </tr>
             {% endfor %}
             </tbody>
@@ -45,4 +51,4 @@
     </div>
 
 
-{% endblock %}
+    {% endblock %}

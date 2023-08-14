@@ -17,7 +17,7 @@ class FurnitureAdForm(forms.ModelForm):
 
     class Meta:
         model = FurnitureAd
-        exclude = ["user", "seller", "views", "status"]
+        exclude = ["user", "seller", "views", "status", "active"]
 
 
 # Create your forms here.

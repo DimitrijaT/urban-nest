@@ -105,15 +105,16 @@ def register_request(request):
 
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
+
             profile = profile_form.save(commit=False)
             profile.user = user
             print(request.FILES)
             print(request.FILES['photo'])
             profile.photo = request.FILES['photo']
-            profile.save()
-
             # Create a shopping cart for the user
-            shopping_cart = ShoppingCart.objects.create(buyer=profile)
+            profile_shopping_cart = ShoppingCart.objects.create(buyer=profile)
+            profile.shopping_cart = profile_shopping_cart
+            profile.save()
 
             return redirect('home')  # Replace 'home' with the URL name for the home page
 
@@ -140,7 +141,7 @@ def dashboard_home(request):
 def offers(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
-    offers = Product.objects.filter(furniture__seller=user)
+    offers = Product.objects.filter(furniture__seller=user).exclude(status='IC')
     context = {'user': user, 'offers': offers}
     return render(request, 'dashboard/dashboard-offers.html', context=context)
 
@@ -189,9 +190,9 @@ def my_orders(request):
 def shopping_cart(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
-    shopping_cart = ShoppingCart.objects.get(buyer=user)
-    items = shopping_cart.items.all()
-    context = {'shopping_cart': shopping_cart, 'items': items}
+    user_shopping_cart = user.shopping_cart
+    items = user_shopping_cart.items.all()
+    context = {'shopping_cart': user_shopping_cart, 'items': items}
     return render(request, 'shopping-cart.html', context=context)
 
 
