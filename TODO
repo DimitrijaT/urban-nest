@@ -1,1 +1,8 @@
-1. Don't let user order his own item
+Don't let user order his own item
+Make photo optional
+Phone number input fixed
+Payment page
+    -You need to put up shipping address too
+    -Track shipping
+    -Confirmation
+    -Payment details

@@ -63,12 +63,12 @@
                 </div>
             </a>
             <div class="pt-3 container d-flex flex-column align-items-center justify-content-center mb-1">
-                <img src="{{MEDIA_URL}}{{user.photo.url}}" alt="" class="rounded-circle" style="
-width: 128px;
-height: 145.636px;">
-                <h2>{{user.first_name}} {{user.last_name}}</h2>
-                <p>{{user.user.username}}</p>
+                <img src="{{ MEDIA_URL }}{{ user.photo.url }}" alt="" class="rounded-circle"
+                     style="width: 128px; height: 128px;">
+                <h2>{{ user.first_name }} {{ user.last_name }}</h2>
+                <p>{{ user.user.username }}</p>
             </div>
+
 
             <div class="d-flex flex-column justify-content-center px-3 gap-3 py-3">
                 <a href="{% url 'dashboard_home' %}" class="text-decoration-none text-reset btn btn-outline-secondary"
@@ -78,9 +78,9 @@ height: 145.636px;">
                     Orders</a>
                 <a href="{% url 'offers' %}" class="text-decoration-none text-reset btn btn-outline-secondary"><i
                         class='fas fa-file-invoice-dollar'></i> Offers</a>
-                <a href="" class="text-decoration-none text-reset btn btn-outline-secondary"><i
+                <a href="{% url 'dashboard_messages' %}" class="text-decoration-none text-reset btn btn-outline-secondary"><i
                         class='fas fa-envelope-open-text'></i> Messages</a>
-                <a href="" class="text-decoration-none text-reset btn btn-outline-secondary"><i
+                <a href="{% url 'dashboard_report' %}" class="text-decoration-none text-reset btn btn-outline-secondary"><i
                         class='fas fa-chart-bar'></i> Report</a>
                 <a href="{% url 'edit_settings' %}" class="text-decoration-none text-reset btn btn-outline-secondary"><i
                         class='fas fa-sliders-h'></i> Settings</a>

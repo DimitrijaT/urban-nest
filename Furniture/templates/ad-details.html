@@ -82,6 +82,7 @@
 
 </style>
 
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 d-flex flex-column justify-content-start align-items-center">
@@ -135,11 +136,14 @@
                     </div>
                 </div>
                 {% if item.seller.user == user %}
-                <a href="" class="btn btn-add-to-cart border border-danger">Edit</a>
+                <a href="{% url 'edit_furniture_ad' ad_id=item.pk %}"
+                   class="btn btn-message-seller border border-warning">Edit</a>
+                <a href="{% url 'delete_furniture_ad' ad_id=item.pk %}"
+                   class="btn btn-add-to-cart border border-danger">Delete</a>
                 {% elif item.active == False %}
                 <h1><strong>SOLD</strong></h1>
                 {% else %}
-                <button class="btn btn-message-seller border border-warning">Message Seller</button>
+                <a class="btn btn-message-seller border border-warning">Message Seller</a>
                 <a href="{% url 'add_to_cart' furniture_id=item.pk %}" class="border border-danger btn btn-add-to-cart">+
                     Add to
                     Cart</a>

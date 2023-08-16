@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UrbanNestUser(models.Model):
@@ -15,7 +16,7 @@ class UrbanNestUser(models.Model):
     postal_code = models.CharField(max_length=100)
     province = models.CharField(max_length=100)
     country = CountryField()
-    phone_number = models.CharField(max_length=9)
+    phone_number = PhoneNumberField(blank=True)
     shopping_cart = models.ForeignKey('ShoppingCart', on_delete=models.CASCADE, null=True, blank=True)
 
     # every user has a shopping cart, it is empty by default

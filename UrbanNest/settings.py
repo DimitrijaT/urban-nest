@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-%i2-9qc0uid@(#&es5bm(-zb0&+bh*2&q9&0%&c$^_0xz=w_$#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['Dimitrija.pythonanywhere.com']
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -37,9 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Furniture',
-    'cart',
-    'django_filters'
-
+    "phonenumber_field"
 ]
 
 MIDDLEWARE = [
@@ -65,15 +64,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'cart.context_processor.cart_total_amount',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'UrbanNest.wsgi.application'
-
-CART_SESSION_ID = 'cart'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

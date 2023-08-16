@@ -97,31 +97,16 @@ def add_furniture_ad(request):
         if form.is_valid():
             furniture_ad = form.save(commit=False)
             furniture_ad.seller = UrbanNestUser.objects.get(user=request.user)
-
+            # if no photo
+            if not request.FILES:
+                furniture_ad.image = 'images/furnitures/default.jpg'
             furniture_ad.save()
-            return redirect('dashboard_home')
+            return redirect(dashboard_home)
     else:
         form = FurnitureAdForm()
     user = UrbanNestUser.objects.get(user=request.user)
     context = {'form': form, 'user': user}
     return render(request, 'ad-add.html', context=context)
-
-
-@login_required
-def edit_furniture_ad(request, ad_id):
-    furniture_ad = get_object_or_404(FurnitureAd, pk=ad_id, seller__user=request.user)
-    if furniture_ad.active is False:
-        return redirect('index')
-    if request.method == 'POST':
-        form = FurnitureAdForm(request.POST, request.FILES, instance=furniture_ad)
-        if form.is_valid():
-            furniture_ad = form.save()
-            return redirect('dashboard_home')
-    else:
-        form = FurnitureAdForm(instance=furniture_ad)
-
-    context = {'form': form, 'furniture_ad': furniture_ad}
-    return render(request, 'ad-edit.html', context=context)
 
 
 @login_required
@@ -133,23 +118,25 @@ def delete_furniture_ad(request, ad_id):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     ad.delete()
-    return redirect('dashboard_home')
+    return redirect(dashboard_home)
 
 
-## TODO:NEEDS TESTING ##
 @login_required
 def edit_furniture_ad(request, ad_id):
     ad = get_object_or_404(FurnitureAd, id=ad_id)
 
     if ad.seller.user != request.user:
         # Redirect or show an error message if the logged-in user is not the ad's seller
-        return redirect('index')  # Replace 'index' with the appropriate URL
+        return redirect(dashboard_home)
 
     if request.method == 'POST':
         form = FurnitureAdForm(request.POST, request.FILES, instance=ad)
         if form.is_valid():
+            form = form.save(commit=False)
+            if not request.FILES:
+                form.image = 'images/furnitures/default.jpg'
             form.save()
-            return redirect('index')  # Redirect to a suitable page after editing
+            return redirect(dashboard_home)
     else:
         form = FurnitureAdForm(instance=ad)
 
@@ -168,9 +155,10 @@ def register_request(request):
 
             profile = profile_form.save(commit=False)
             profile.user = user
-            print(request.FILES)
-            print(request.FILES['photo'])
-            profile.photo = request.FILES['photo']
+            if 'photo' in request.FILES:
+                profile.photo = request.FILES['photo']
+            else:
+                profile.photo = 'images/users/default.jpg'
             profile.save()
             # Create a shopping cart for the user
             profile_shopping_cart = ShoppingCart.objects.create(buyer=profile)
@@ -196,9 +184,14 @@ def edit_settings(request):
 
     if request.method == 'POST':
         form = UrbanNestUserForm(request.POST, request.FILES, instance=user_settings)
+
         if form.is_valid():
+            form = form.save(commit=False)
+            if not request.FILES:
+                form.photo = 'images/users/default.jpg'
             form.save()
-            return redirect('edit_settings')  # Redirect back to the edit settings page
+
+            return redirect(dashboard_home)
     else:
         form = UrbanNestUserForm(instance=user_settings)
 
@@ -211,16 +204,32 @@ def edit_settings(request):
 def dashboard_home(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
-    list_of_ads = FurnitureAd.objects.filter(seller=user)
+    list_of_ads = FurnitureAd.objects.filter(seller=user).order_by('-creation_date')
     context = {'user': user, 'list_of_ads': list_of_ads}
     return render(request, 'dashboard/dashboard-home.html', context=context)
+
+
+@login_required
+def dashboard_report(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    context = {'user': user}
+    return render(request, 'dashboard/dashboard-report.html', context=context)
+
+
+@login_required
+def dashboard_messages(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    context = {'user': user}
+    return render(request, 'dashboard/dashboard-messages.html', context=context)
 
 
 @login_required
 def offers(request):
     # get the user
     user = UrbanNestUser.objects.get(user=request.user)
-    offers = Product.objects.filter(furniture__seller=user).exclude(status='IC')
+    offers = Product.objects.filter(furniture__seller=user).exclude(status='IC').order_by('-creation_date')
     context = {'user': user, 'offers': offers}
     return render(request, 'dashboard/dashboard-offers.html', context=context)
 
@@ -260,6 +269,7 @@ def my_orders(request):
     user = UrbanNestUser.objects.get(user=request.user)
     products = Product.objects.filter(buyer=user)
     list_of_orders = products.filter(status='PE') | products.filter(status='AC') | products.filter(status='RE')
+    list_of_orders.order_by('-creation_date')
     print(products)
     context = {'user': user, 'list_of_orders': list_of_orders}
     return render(request, 'dashboard/dashboard-my-orders.html', context=context)
@@ -283,7 +293,7 @@ def add_to_cart(request, furniture_id):
     furniture = get_object_or_404(FurnitureAd, id=furniture_id)
     user = UrbanNestUser.objects.get(user=request.user)
     if furniture.seller == user:
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        return HttpResponseRedirect(request.POST.get('next', '/'))
     product = Product.objects.create(buyer=user, furniture=furniture)
     cart, created = ShoppingCart.objects.get_or_create(buyer=user)
     cart.items.add(product)

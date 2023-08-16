@@ -89,7 +89,11 @@
             <tbody>
             {% for ad in list_of_ads %}
             <tr>
-                <td><img src="{{ad.image.url}}" alt="" width="100px" class="rounded shadow-sm"></td>
+                {% if ad.image %}
+                <td><a href="{% url 'addetails' pk=ad.pk %}"><img src="{{ad.image.url}}" alt="" width="100px" class="rounded shadow-sm"></a></td>
+                {% endif %}
+
+
                 <td class="align-middle">{{ad.name}}</td>
                 <td class="align-middle">{{ad.category.name}}</td>
                 <td class="align-middle">{{ad.views}}</td>
@@ -99,8 +103,10 @@
                 {% if ad.active == True %}
                 <td class="align-middle">
                     <div class="d-flex justify-content-around">
-                        <a href="{% url 'edit_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i class='fas fa-pen'></i></a>
-                        <a href="{% url 'delete_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i class='fas fa-trash'></i></a>
+                        <a href="{% url 'edit_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i
+                                class='fas fa-pen'></i></a>
+                        <a href="{% url 'delete_furniture_ad' ad_id=ad.pk %}" class="text-warning"><i
+                                class='fas fa-trash'></i></a>
                     </div>
                 </td>
                 {% else %}

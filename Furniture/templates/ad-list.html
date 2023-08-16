@@ -122,8 +122,30 @@
         </div>
         <div class="row">
             <div class="col-md-12 text-center">
+                <style>
+                    /* Custom style for red and yellow pagination */
+                    .my-pagination .page-link {
+                        color: #ffffff; /* White text color for better contrast */
+                        background-color: #d32f2f; /* Macedonian red background color */
+                        border-color: #d32f2f; /* Macedonian red border color */
+                    }
+
+                    /* Custom style for active page */
+                    .my-pagination .page-item.active .page-link {
+                        background-color: #ffc107; /* Macedonian yellow for active page */
+                        border-color: #ffc107; /* Macedonian yellow border for active page */
+                    }
+
+                    /* Custom style for inactive pages */
+                    .my-pagination .page-item:not(.active) .page-link {
+                        color: #333; /* Darker text color for better contrast */
+                        background-color: #f7f7f7; /* Soft gray background for inactive pages */
+                        border-color: #ddd; /* Light gray border for inactive pages */
+                    }
+                </style>
+
                 <!-- Bootstrap Pagination -->
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" class="my-pagination">
                     <ul class="pagination justify-content-center">
                         {% if furniture_ads.has_previous %}
                         <!-- Previous page link with search query -->
@@ -155,6 +177,8 @@
                         {% endif %}
                     </ul>
                 </nav>
+
+
             </div>
         </div>
     </div>
