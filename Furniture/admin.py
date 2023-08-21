@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from .models import UrbanNestUser, FurnitureAd, Product, ShoppingCart, Category, Testimonial, FAQ, Contact, About, \
-    FrontCover
+from .models import UrbanNestUser, FurnitureAd, Product, ShoppingCart, Category, Testimonial, QNA, Contact, About, \
+    FrontCover, MessageThread, Message
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
@@ -90,7 +90,10 @@ admin.site.register(User, UserAdmin)
 admin.site.register(UrbanNestUser, UrbanNestUserAdmin)
 admin.site.register(FurnitureAd, FurnitureAdAdmin)
 admin.site.register(Testimonial)
-admin.site.register(FAQ)
+admin.site.register(QNA)
 admin.site.register(Contact)
 admin.site.register(About)
 admin.site.register(FrontCover)
+admin.site.register(MessageThread)
+admin.site.register(Message)
+

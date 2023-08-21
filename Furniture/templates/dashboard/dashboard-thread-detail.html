@@ -1,0 +1,85 @@
+{% extends "dashboard/base-dashboard.html" %}
+
+{% block content %}
+<style>
+    /* Add custom styling here */
+    .message {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .message-avatar img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
+
+    .message-content {
+        max-width: 70%;
+    }
+
+    .message-date {
+        text-align: center;
+        margin: 10px 0;
+        color: #808080;
+    }
+
+    .message-time {
+        font-size: 12px;
+        color: #808080;
+    }
+
+
+</style>
+<div class="container mt-5 d-flex flex-row align-items-between justify-content-center">
+    <a href="{% url 'dashboard_messages' %}" class="btn btn-warning text-center">
+        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <h4 class="container text-center">{{ thread.title }}</h4>
+</div>
+<hr class="hr">
+
+<div class="container">
+    <div class="container">
+        <div class="messages" style="height: 400px; overflow-y: scroll;">
+            {% with prev_date=None %}
+            {% for message in messages %}
+            {% if prev_date != message.creation_date|date:"Ymd" %}
+            <div class="message-date">
+                {{ message.creation_date|date:"F d, Y" }}
+            </div>
+            {% endif %}
+            <div class="message {% if user == message.author %}message-out{% else %}message-in{% endif %}">
+                <div class="message-avatar">
+                    <img src="{% if user == message.author %}{{ MEDIA_URL }}{{ user.photo.url }}{% else %}{{ MEDIA_URL }}{{ message.author.photo.url }}{% endif %}"
+                         alt="Avatar" class="rounded-circle">
+                </div>
+                <div class="message-content bg-light rounded p-2">
+                    <p class="mb-0">{{ message.message }}</p>
+                    <small class="message-time">{{ message.creation_date|date:"H:i A" }}</small>
+                </div>
+            </div>
+            {% with prev_date=message.creation_date|date:"Ymd" %}
+            {% endwith %}
+            {% endfor %}
+            {% endwith %}
+        </div>
+    </div>
+    <hr class="my-4">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary mt-0 mb-2">Send</button>
+    </form>
+</div>
+
+<!-- Add Bootstrap JS script here if needed -->
+<script src="your-bootstrap-js-path"></script>
+<script>
+    // Scroll to the latest message when the page loads or a new message is posted
+    const messagesContainer = document.querySelector(".messages");
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+</script>
+
+{% endblock %}

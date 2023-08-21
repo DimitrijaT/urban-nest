@@ -1,0 +1,40 @@
+{% extends "base_generic.html"%}
+
+{% block content %}
+
+<div class="container  d-flex justify-content-center mt-5">
+    <div class="col-md-6 mb-4 d-flex flex-column justify-content-center align-items-center p-4"
+         style="background: #F1F1F1;  border-radius: 50px; border: 0.50px solid #E3B930;">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="103" height="100" viewBox="0 0 103 100" fill="none">
+            <g clip-path="url(#clip0_1_30761)">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M51.5 93.75C63.4513 93.75 74.9131 89.1406 83.364 80.9359C91.8149 72.7312 96.5625 61.6032 96.5625 50C96.5625 38.3968 91.8149 27.2688 83.364 19.0641C74.9131 10.8594 63.4513 6.25 51.5 6.25C39.5487 6.25 28.0869 10.8594 19.636 19.0641C11.1851 27.2688 6.4375 38.3968 6.4375 50C6.4375 61.6032 11.1851 72.7312 19.636 80.9359C28.0869 89.1406 39.5487 93.75 51.5 93.75ZM51.5 100C65.1587 100 78.2579 94.7322 87.916 85.3553C97.5741 75.9785 103 63.2608 103 50C103 36.7392 97.5741 24.0215 87.916 14.6447C78.2579 5.26784 65.1587 0 51.5 0C37.8414 0 24.7421 5.26784 15.084 14.6447C5.42588 24.0215 0 36.7392 0 50C0 63.2608 5.42588 75.9785 15.084 85.3553C24.7421 94.7322 37.8414 100 51.5 100Z"
+                      fill="#E3B930"/>
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M70.6191 31.0625C71.5201 30.1955 72.7363 29.7075 74.0048 29.7041C75.2734 29.7007 76.4923 30.1822 77.3982 31.0444C78.304 31.9066 78.8239 33.0803 78.8456 34.3117C78.8672 35.5431 78.3888 36.7334 77.5137 37.625L51.8152 68.8125C51.3735 69.2744 50.8405 69.6451 50.2479 69.9023C49.6553 70.1596 49.0153 70.2982 48.3663 70.3099C47.7173 70.3216 47.0725 70.2061 46.4705 69.9703C45.8685 69.7345 45.3217 69.3832 44.8627 68.9375L27.8355 52.4C27.3612 51.9709 26.9807 51.4534 26.7168 50.8784C26.4529 50.3034 26.311 49.6827 26.2996 49.0533C26.2881 48.4239 26.4074 47.7987 26.6502 47.2151C26.8931 46.6314 27.2545 46.1012 27.713 45.6561C28.1714 45.2109 28.7175 44.86 29.3187 44.6243C29.9199 44.3885 30.5639 44.2727 31.2121 44.2838C31.8604 44.295 32.4997 44.4327 33.092 44.6889C33.6842 44.9451 34.2173 45.3145 34.6593 45.775L48.1394 58.8563L70.4968 31.2C70.5367 31.1516 70.5797 31.1057 70.6256 31.0625H70.6191Z"
+                      fill="#E3B930"/>
+            </g>
+            <defs>
+                <clipPath id="clip0_1_30761">
+                    <rect width="103" height="100" fill="white"/>
+                </clipPath>
+            </defs>
+        </svg>
+
+
+        <h1>Payment Confirmed</h1>
+        <p class="text-secondary">ORDER #</p>
+        <h6 class="text-center"> Thank you {{urbanuser.first_name}} for buying from UrbanNest. Now that your order is confirmed it will be ready
+            to ship in 2 days.
+            Please check your inbox in the future for your order updates.</h6>
+        <!-- Other content inside the first column -->
+
+        <a href="{% url 'adcategory' %}" class="btn btn-warning mt-2"
+           style="font-size: 18px;">Back to Shopping</a>
+        <a value="Print Receipt" type=submit class="text-danger font-weight-bold text-decoration-underline mt-2">Print Receipt</a>
+
+    </div>
+
+</div>
+{% endblock %}

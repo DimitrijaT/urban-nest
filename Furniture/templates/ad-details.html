@@ -34,7 +34,7 @@
     .product-price {
         font-size: 36px;
         font-weight: bold;
-        color: #BC1D1B;
+        color: #54C588;
     }
 
     .product-features {
@@ -143,7 +143,8 @@
                 {% elif item.active == False %}
                 <h1><strong>SOLD</strong></h1>
                 {% else %}
-                <a class="btn btn-message-seller border border-warning">Message Seller</a>
+                <a href="{% url 'create_thread' furniture_id=item.pk %}" class="btn btn-message-seller border border-warning">Message
+                    Seller</a>
                 <a href="{% url 'add_to_cart' furniture_id=item.pk %}" class="border border-danger btn btn-add-to-cart">+
                     Add to
                     Cart</a>

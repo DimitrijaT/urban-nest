@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from Furniture.views import index, details, category, adlist, add_furniture_ad, about, contact, register_request, \
     dashboard_home, shopping_cart, add_to_cart, remove_from_cart, checkout, my_orders, offers, offer_accept, \
-    offer_decline, delete_furniture_ad, edit_furniture_ad, edit_settings, dashboard_report, dashboard_messages
+    offer_decline, delete_furniture_ad, edit_furniture_ad, edit_settings, dashboard_report, dashboard_messages, \
+    dashboard_thread_detail, checkout_success, create_thread, faq
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -40,6 +41,7 @@ urlpatterns = [
                   path("dashboard/home", dashboard_home, name="dashboard_home"),
                   path("dashboard/report", dashboard_report, name="dashboard_report"),
                   path("dashboard/messages", dashboard_messages, name="dashboard_messages"),
+                  path("dashboard/thread_detail/<int:thread_pk>", dashboard_thread_detail, name="dashboard_thread_detail"),
                   path("dashboard/my_orders", my_orders, name="my_orders"),
                   path("dashboard/offers", offers, name="offers"),
                   path("delete_furniture_ad/<int:ad_id>", delete_furniture_ad, name="delete_furniture_ad"),
@@ -48,4 +50,8 @@ urlpatterns = [
                   path('add_to_cart/<int:furniture_id>/', add_to_cart, name='add_to_cart'),
                   path('remove_from_cart/<int:product_id>/', remove_from_cart, name='remove_from_cart'),
                   path('checkout/', checkout, name='checkout'),
+                  # path('checkout_wizard/', checkout_wizard, name='checkout_wizard'),
+                  path('checkout_success/', checkout_success, name='checkout_success'),
+                  path('create_thread/<int:furniture_id>', create_thread, name='create_thread'),
+                  path('faq/', faq, name='faq'),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

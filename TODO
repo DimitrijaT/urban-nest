@@ -1,8 +1,12 @@
-Don't let user order his own item
-Make photo optional
+Don't let user order his own item fixed
+Make photo optional fixed
 Phone number input fixed
 Payment page
     -You need to put up shipping address too
     -Track shipping
     -Confirmation
     -Payment details
+
+
+
+    pip freeze > requirements.txt

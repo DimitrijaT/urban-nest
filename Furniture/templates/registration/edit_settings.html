@@ -3,7 +3,8 @@
 
 <!-- edit_settings.html -->
 <div class="container py-5">
-    <h1>Edit Settings</h1>
+    <h3><strong><i
+            class='fas fa-sliders-h' style='font-size:36px'></i> Edit Settings</strong></h3>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

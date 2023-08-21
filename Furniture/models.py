@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django_countries.fields import CountryField
 from django.core.validators import MinValueValidator, MaxValueValidator
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class UrbanNestUser(models.Model):
@@ -16,7 +15,7 @@ class UrbanNestUser(models.Model):
     postal_code = models.CharField(max_length=100)
     province = models.CharField(max_length=100)
     country = CountryField()
-    phone_number = PhoneNumberField(blank=True)
+    phone_number = models.CharField(max_length=15)
     shopping_cart = models.ForeignKey('ShoppingCart', on_delete=models.CASCADE, null=True, blank=True)
 
     # every user has a shopping cart, it is empty by default
@@ -143,7 +142,7 @@ class Testimonial(models.Model):
         return self.nickname
 
 
-class FAQ(models.Model):
+class QNA(models.Model):
     question = models.CharField(max_length=255)
     answer = models.TextField()
     # auto_now_add is added automatically when creating a post
@@ -197,3 +196,26 @@ class FrontCover(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class MessageThread(models.Model):
+    seller = models.ForeignKey(UrbanNestUser, related_name='seller_threads', on_delete=models.CASCADE)
+    customer = models.ForeignKey(UrbanNestUser, related_name='customer_threads', on_delete=models.CASCADE)
+    furniture_ad = models.ForeignKey(FurnitureAd, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    last_modified_date = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Message(models.Model):
+    thread = models.ForeignKey(MessageThread, on_delete=models.CASCADE)
+    author = models.ForeignKey(UrbanNestUser, on_delete=models.CASCADE)
+    message = models.TextField()
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message by {self.author} on {self.creation_date}"

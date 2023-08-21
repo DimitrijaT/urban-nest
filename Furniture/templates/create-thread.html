@@ -1,0 +1,40 @@
+<!--contact page-->
+{% extends 'base_generic.html' %}
+{% block content %}
+
+<style>
+    /* You can keep the previous CSS for .contact-container, .contact-card, and .contact-title if needed */
+
+    .contact-label {
+        font-size: 18px;
+    }
+
+    .contact-input {
+        margin-bottom: 20px;
+    }
+
+    .contact-button {
+        font-size: 18px;
+    }
+
+</style>
+
+<div class="container contact-container mt-4">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card contact-card">
+                <div class="card-body">
+                    <h2 class="card-title contact-title">Product: {{furniture.name}}</h2>
+                    <form method="post" class="contact-form">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button type="submit" class="btn btn-warning btn-block contact-button">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

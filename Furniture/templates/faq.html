@@ -1,0 +1,33 @@
+{% extends 'base_generic.html' %}
+{% block content %}
+
+<!--class QNA(models.Model):
+    question = models.CharField(max_length=255)
+    answer = models.TextField()
+    # auto_now_add is added automatically when creating a post
+    creation_date = models.DateTimeField(auto_now_add=True)
+    # auto_now is added automatically when editing a post
+    last_modified_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.question-->
+
+<div class="container mt-5">
+    <h1 class="text-center">Frequently Asked Questions</h1>
+    <hr>
+
+    <!-- FAQ Loop -->
+    {% for qna in faq %}
+    <div class="card mb-3">
+        <div class="card-header">
+            {{ qna.question }}
+        </div>
+        <div class="card-body">
+            {{ qna.answer | linebreaks }}
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

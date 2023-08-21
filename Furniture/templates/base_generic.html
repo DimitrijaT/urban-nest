@@ -213,23 +213,23 @@
                         <div class="col-4 mb-4">
                             <h3 class="footer-column-title fancy-red text-center text-lg-start">DISCOVERY</h3>
                             <ul class="footer-links no-padding text-center text-lg-start">
-                                <li><a href="#">Most Popular</a></li>
-                                <li><a href="#">Add a Product</a></li>
-                                <li><a href="#">Categories</a></li>
+                                <li><a href="{% url 'index' %}">Most Popular</a></li>
+                                <li><a href="{% url 'add_furniture_ad' %}'">Add a Product</a></li>
+                                <li><a href="{% url 'adcategory' %}">Categories</a></li>
                             </ul>
                         </div>
                         <div class="col-4 mb-4">
                             <h3 class="footer-column-title fancy-red text-center text-lg-start">ABOUT</h3>
                             <ul class="footer-links no-padding text-center text-lg-start">
-                                <li><a href="#">Affiliate</a></li>
+                                <li><a href="{% url 'faq' %}">Q&A</a></li>
                                 <li><a href="#">Shipping</a></li>
-                                <li><a href="#">Help</a></li>
+                                <li><a href="{% url 'about' %}">Help</a></li>
                             </ul>
                         </div>
                         <div class="col-4 mb-4">
                             <h3 class="footer-column-title fancy-red text-center text-lg-start">INFO</h3>
                             <ul class="footer-links no-padding text-center text-lg-start">
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="{% url 'contact' %}">Contact us</a></li>
                                 <li><a href="#">Privacy Policies</a></li>
                                 <li><a href="#">Terms & Conditions</a></li>
                             </ul>

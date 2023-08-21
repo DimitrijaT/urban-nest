@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import default_storage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import NewUserForm, UrbanNestUserForm
+from .forms import NewUserForm, UrbanNestUserForm, ThreadForm, MessageForm
 from django.contrib.auth import login
 from django.contrib import messages
 from .forms import FurnitureAdForm
-from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category, Testimonial, FrontCover, About, Contact
+from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category, Testimonial, FrontCover, About, \
+    Contact, MessageThread, Message, QNA
 from datetime import datetime, timedelta
 # from .forms import
 from django.http import HttpResponse, HttpResponseRedirect
@@ -166,6 +168,11 @@ def register_request(request):
             profile.shopping_cart = profile_shopping_cart
             profile.save()
 
+            user = authenticate(username=user_form.cleaned_data['username'],
+                                password=user_form.cleaned_data['password1'])
+            if user is not None:
+                login(request, user)
+
             return redirect('/')
 
     else:
@@ -215,14 +222,6 @@ def dashboard_report(request):
     user = UrbanNestUser.objects.get(user=request.user)
     context = {'user': user}
     return render(request, 'dashboard/dashboard-report.html', context=context)
-
-
-@login_required
-def dashboard_messages(request):
-    # get the user
-    user = UrbanNestUser.objects.get(user=request.user)
-    context = {'user': user}
-    return render(request, 'dashboard/dashboard-messages.html', context=context)
 
 
 @login_required
@@ -310,13 +309,101 @@ def remove_from_cart(request, product_id):
     return redirect('shopping_cart')
 
 
+# @login_required
+# def checkout(request):
+
+#     items = cart.items.all()
+#     for item in items:
+#         item.status = 'PE'
+#         item.save()
+#     cart.items.clear()
+#     return redirect('shopping_cart')
+
+
 @login_required
 def checkout(request):
     user = UrbanNestUser.objects.get(user=request.user)
     cart = ShoppingCart.objects.get(buyer=user)
     items = cart.items.all()
-    for item in items:
-        item.status = 'PE'
-        item.save()
-    cart.items.clear()
-    return redirect('shopping_cart')
+    user_shopping_cart = user.shopping_cart
+
+    if request.method == 'POST':
+        form = UrbanNestUserForm(request.POST, request.FILES, instance=user)
+
+        if form.is_valid():
+            form = form.save(commit=False)
+            if not request.FILES:
+                form.photo = 'images/users/default.jpg'
+            form.save()
+
+            items = cart.items.all()
+            for item in items:
+                item.status = 'PE'
+                item.save()
+            cart.items.clear()
+            return redirect('checkout_success')
+    else:
+        form = UrbanNestUserForm(instance=user)
+
+    context = {'form': form, 'items': items, 'shopping_cart': user_shopping_cart}
+    return render(request, 'shopping-cart-wizard-details.html', context=context)
+
+
+def checkout_success(request):
+    urbanuser = UrbanNestUser.objects.get(user=request.user)
+    cart = ShoppingCart.objects.get(buyer=urbanuser)
+    items = cart.items.all()
+    context = {'urbanuser': urbanuser}
+    return render(request, 'shopping-cart-wizard-success.html', context=context)
+
+
+def create_thread(request, furniture_id):
+    furniture = get_object_or_404(FurnitureAd, id=furniture_id)
+    user = UrbanNestUser.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        form = ThreadForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.customer = user
+            form.seller = furniture.seller
+            form.furniture_ad = furniture
+            form.save()
+            return redirect('dashboard_messages')
+    else:
+        form = ThreadForm()
+
+    context = {'form': form, 'furniture': furniture}
+    return render(request, 'create-thread.html', context=context)
+
+
+@login_required
+def dashboard_messages(request):
+    # get the user
+    user = UrbanNestUser.objects.get(user=request.user)
+    threads = MessageThread.objects.filter(Q(customer=user) | Q(seller=user)).order_by('-creation_date')
+    context = {'user': user, 'threads': threads}
+    return render(request, 'dashboard/dashboard-messages.html', context=context)
+
+
+def dashboard_thread_detail(request, thread_pk):
+    user = UrbanNestUser.objects.get(user=request.user)
+    thread = MessageThread.objects.get(pk=thread_pk)
+    messages = Message.objects.filter(thread=thread).order_by('creation_date')
+    form = MessageForm()
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.thread = thread
+            form.author = user
+            form.save()
+            return redirect('dashboard_thread_detail', thread_pk=thread_pk)
+    context = {'user': user, 'form': form, 'thread': thread, 'messages': messages}
+    return render(request, 'dashboard/dashboard-thread-detail.html', context=context)
+
+
+def faq(request):
+    faq = QNA.objects.all()
+    context = {'faq': faq}
+    return render(request, 'faq.html', context=context)
