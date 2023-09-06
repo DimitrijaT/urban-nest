@@ -11,7 +11,7 @@ from .models import FurnitureAd, UrbanNestUser, Product, ShoppingCart, Category,
     Contact, MessageThread, Message, QNA
 from datetime import datetime, timedelta
 # from .forms import
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -32,9 +32,13 @@ def about(request):
     return render(request, 'about.html', context=context)
 
 
+# @login_required
 def contact(request):
     if request.method == 'POST':
-        user = UrbanNestUser.objects.get(user=request.user)
+        if request.user.is_authenticated:
+            user = UrbanNestUser.objects.get(user=request.user)
+        else:
+            user = None
         name = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
@@ -103,7 +107,7 @@ def add_furniture_ad(request):
             if not request.FILES:
                 furniture_ad.image = 'images/furnitures/default.jpg'
             furniture_ad.save()
-            return redirect(dashboard_home)
+            return redirect('dashboard_home')
     else:
         form = FurnitureAdForm()
     user = UrbanNestUser.objects.get(user=request.user)
@@ -349,6 +353,7 @@ def checkout(request):
     return render(request, 'shopping-cart-wizard-details.html', context=context)
 
 
+@login_required
 def checkout_success(request):
     urbanuser = UrbanNestUser.objects.get(user=request.user)
     cart = ShoppingCart.objects.get(buyer=urbanuser)
@@ -357,13 +362,14 @@ def checkout_success(request):
     return render(request, 'shopping-cart-wizard-success.html', context=context)
 
 
+@login_required
 def create_thread(request, furniture_id):
     furniture = get_object_or_404(FurnitureAd, id=furniture_id)
     user = UrbanNestUser.objects.get(user=request.user)
 
     if request.method == 'POST':
         form = ThreadForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and user != furniture.seller:
             form = form.save(commit=False)
             form.customer = user
             form.seller = furniture.seller
@@ -386,6 +392,7 @@ def dashboard_messages(request):
     return render(request, 'dashboard/dashboard-messages.html', context=context)
 
 
+@login_required
 def dashboard_thread_detail(request, thread_pk):
     user = UrbanNestUser.objects.get(user=request.user)
     thread = MessageThread.objects.get(pk=thread_pk)

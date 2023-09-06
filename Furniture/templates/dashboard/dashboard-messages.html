@@ -10,20 +10,26 @@
                 <div class="card shadow-sm">
                     <div class="card-body d-flex align-items-start d-flex flex-row justify-content-around">
                         <div class="mr-3 d-flex flex-column align-items-center justify-content-start">
+                            {% if thread.seller.photo %}
                             <img src="{{ MEDIA_URL }}{{ thread.seller.photo.url }}" alt="seller" class="rounded-circle"
                                  style="width: 64px; height: 64px;">
+                            {% endif %}
                             <p class="text-center m-0">{{ thread.seller.user.username }}</p>
                             <span class="text-secondary" style="font-size: x-small">(seller)</span>
                         </div>
                         <div class="mr-3 d-flex flex-column align-items-center  justify-content-start">
+                            {% if thread.furniture_ad.image %}
                             <img src="{{ MEDIA_URL }}{{ thread.furniture_ad.image.url }}" alt="product" class="rounded"
                                  style="width: 64px; height: 64px;">
+                            {% endif %}
                             <p class="text-center m-0">{{ thread.furniture_ad.name }}</p>
                             <span class="text-secondary" style="font-size: x-small">(product)</span>
                         </div>
                         <div class="mr-3 d-flex flex-column align-items-center  justify-content-start">
+                            {% if thread.customer.photo %}
                             <img src="{{ MEDIA_URL }}{{ thread.customer.photo.url }}" alt="buyer" class="rounded-circle"
                                  style="width: 64px; height: 64px;">
+                            {% endif %}
                             <p class="text-center m-0">{{ thread.customer.user.username }}</p>
                             <span class="text-secondary" style="font-size: x-small">(customer)</span>
                         </div>

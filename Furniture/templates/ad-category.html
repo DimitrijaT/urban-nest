@@ -96,9 +96,11 @@
                          class="text-decoration-none text-reset d-flex flex-column justify-content-center align-items-center"
                          href="">
                         <div style=" overflow: hidden;">
+                            {% if category.photo %}
                             <img style="width: 100%; object-fit: fill;"
                                  src="{{ MEDIA_URL }}{{ category.photo.url }}" class="card-img-top"
                                  alt="Product Image">
+                            {% endif %}
                         </div>
                     </div>
                     <div class="card-body">

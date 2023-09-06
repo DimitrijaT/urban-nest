@@ -52,8 +52,10 @@
             {% endif %}
             <div class="message {% if user == message.author %}message-out{% else %}message-in{% endif %}">
                 <div class="message-avatar">
+                    {% if user.photo %}
                     <img src="{% if user == message.author %}{{ MEDIA_URL }}{{ user.photo.url }}{% else %}{{ MEDIA_URL }}{{ message.author.photo.url }}{% endif %}"
                          alt="Avatar" class="rounded-circle">
+                    {% endif %}
                 </div>
                 <div class="message-content bg-light rounded p-2">
                     <p class="mb-0">{{ message.message }}</p>

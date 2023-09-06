@@ -87,7 +87,9 @@
     <div class="row">
         <div class="col-md-6 d-flex flex-column justify-content-start align-items-center">
             <div class="product-container">
+                {% if item.image %}
                 <img src="{{ MEDIA_URL }}{{ item.image.url }}" class="img-fluid product-image" alt="Product Image">
+                {% endif %}
             </div>
             <div class="product-description">
                 <h5>
@@ -143,7 +145,8 @@
                 {% elif item.active == False %}
                 <h1><strong>SOLD</strong></h1>
                 {% else %}
-                <a href="{% url 'create_thread' furniture_id=item.pk %}" class="btn btn-message-seller border border-warning">Message
+                <a href="{% url 'create_thread' furniture_id=item.pk %}"
+                   class="btn btn-message-seller border border-warning">Message
                     Seller</a>
                 <a href="{% url 'add_to_cart' furniture_id=item.pk %}" class="border border-danger btn btn-add-to-cart">+
                     Add to
