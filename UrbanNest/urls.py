@@ -25,8 +25,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
                   path('admin/', admin.site.urls),
-                  path('', index, name='index'),
                   path('index/', index, name='index'),
+                  path('', index, name='index'),
                   path('about/', about, name='about'),
                   path('contact/', contact, name='contact'),
                   path('ad/details/<str:pk>', details, name='addetails'),
@@ -41,7 +41,8 @@ urlpatterns = [
                   path("dashboard/home", dashboard_home, name="dashboard_home"),
                   path("dashboard/report", dashboard_report, name="dashboard_report"),
                   path("dashboard/messages", dashboard_messages, name="dashboard_messages"),
-                  path("dashboard/thread_detail/<int:thread_pk>", dashboard_thread_detail, name="dashboard_thread_detail"),
+                  path("dashboard/thread_detail/<int:thread_pk>", dashboard_thread_detail,
+                       name="dashboard_thread_detail"),
                   path("dashboard/my_orders", my_orders, name="my_orders"),
                   path("dashboard/offers", offers, name="offers"),
                   path("delete_furniture_ad/<int:ad_id>", delete_furniture_ad, name="delete_furniture_ad"),

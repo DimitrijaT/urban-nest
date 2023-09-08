@@ -298,8 +298,8 @@ def add_to_cart(request, furniture_id):
     if furniture.seller == user:
         return HttpResponseRedirect(request.POST.get('next', '/'))
     product = Product.objects.create(buyer=user, furniture=furniture)
-    cart, created = ShoppingCart.objects.get_or_create(buyer=user)
-    cart.items.add(product)
+    # cart, created = ShoppingCart.objects.get_or_create(buyer=user)
+    user.shopping_cart.items.add(product)
     return redirect('shopping_cart')
 
 
@@ -327,9 +327,8 @@ def remove_from_cart(request, product_id):
 @login_required
 def checkout(request):
     user = UrbanNestUser.objects.get(user=request.user)
-    cart = ShoppingCart.objects.get(buyer=user)
-    items = cart.items.all()
     user_shopping_cart = user.shopping_cart
+    items = user_shopping_cart.items.all()
 
     if request.method == 'POST':
         form = UrbanNestUserForm(request.POST, request.FILES, instance=user)
@@ -340,11 +339,10 @@ def checkout(request):
                 form.photo = 'images/users/default.jpg'
             form.save()
 
-            items = cart.items.all()
             for item in items:
                 item.status = 'PE'
                 item.save()
-            cart.items.clear()
+            user_shopping_cart.items.clear()
             return redirect('checkout_success')
     else:
         form = UrbanNestUserForm(instance=user)

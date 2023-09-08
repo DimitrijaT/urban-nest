@@ -13,7 +13,7 @@ background-position: center;
 background-size: 100%;
 background-repeat: no-repeat;"
      class="pt-md-5 pt-3"
->
+     xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="container d-flex align-items-center justify-content-center flex-column"
          style="width: 90%;
          max-width: 730px;
@@ -22,8 +22,8 @@ background-repeat: no-repeat;"
          background: rgba(247, 248, 250, 0.80);
          backdrop-filter: blur(5px);"
     >
-        <div class="text-center mb-md-4 mb-3" style="color: #1D252C;">
-            <h1 class="fw-bold" style="font-family: Poppins,serif; font-size: 32px; line-height: 1.8;">
+        <div id="front_cover_title_div" class="text-center mb-md-4 mb-3" style="color: #1D252C;">
+            <h1 id="title_text" class="fw-bold" style="font-family: Poppins,serif; font-size: 32px; line-height: 1.8;">
                 {{front_cover.title}}</h1>
         </div>
         <div class="text-center mb-md-4 mb-3" style="color: #000;">
@@ -91,7 +91,7 @@ background-repeat: no-repeat;"
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{ad.name}}</h5>
+                        <h5 class="card-title product_name">{{ad.name}}</h5>
                         <p class="card-text price">{{ad.currency}} {{ad.price}}</p>
                     </div>
                 </a>

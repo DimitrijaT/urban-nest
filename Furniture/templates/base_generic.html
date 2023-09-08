@@ -78,7 +78,7 @@
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </a>
                         {% else %}
-                        <a class="nav-link" href="{% url 'login' %}">Please log in.</a>
+                        <a id="login_redirect_button" class="nav-link" href="{% url 'login' %}">Please log in.</a>
                         {% endif %}
                     </div>
                 </div>
@@ -95,7 +95,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item px-4">
-                        <a class="nav-link" href="{% url 'adcategory' %}"><h5><strong>Discovery </strong></h5></a>
+                        <a id="open_furniture_category_list" class="nav-link" href="{% url 'adcategory' %}"><h5><strong>Discovery </strong></h5></a>
                     </li>
                     <li class="nav-item px-4">
                         <a class="nav-link" href="{% url 'about' %}"><h5><strong>About </strong></h5></a>
@@ -110,7 +110,7 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             {% if user.is_authenticated %}
-                            <a class="nav-link" href="{% url 'shopping_cart' %}">
+                            <a id="open_shopping_cart" class="nav-link" href="{% url 'shopping_cart' %}">
                                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                             </a>
                             {% else %}
@@ -118,7 +118,7 @@
                         </li>
                         <li class="nav-item">
                             {% if user.is_authenticated %}
-                            <a class="nav-link" href="{% url 'dashboard_home' %}">
+                            <a id="open_dashboard_button" class="nav-link" href="{% url 'dashboard_home' %}">
                                 {{ user.get_username }} <i class="fa fa-user" aria-hidden="true"></i>
                             </a>
                             {% else %}

@@ -89,12 +89,12 @@ class TestModels(TestCase):
         self.shopping_cart.items.add(product1)
         self.shopping_cart.items.add(product2)
 
-    # def test_total_items_in_shopping_cart(self):
-    #     self.create_shopping_cart_and_add_products_to_cart()
-    #
-    #     self.assertEqual(self.shopping_cart.get_total_num_items(), 2)
-    #
-    # def test_total_price_in_shopping_cart(self):
-    #     self.create_shopping_cart_and_add_products_to_cart()
-    #
-    #     self.assertEqual(self.shopping_cart.get_total_price(), 1500)
+    def test_total_items_in_shopping_cart(self):
+        self.create_shopping_cart_and_add_products_to_cart()
+
+        self.assertEqual(self.shopping_cart.get_total_num_items(), 2)
+
+    def test_total_price_in_shopping_cart(self):
+        self.create_shopping_cart_and_add_products_to_cart()
+
+        self.assertEqual(self.shopping_cart.get_total_price(), 1500)

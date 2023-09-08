@@ -27,7 +27,7 @@
 
                 <a href="{% url 'shopping_cart' %}" class="text-danger font-weight-bold text-decoration-underline"
                    style="font-size: 18px;">Back to Cart</a>
-                <input form="myform" value="Pay Now!" type=submit class="btn btn-warning"></input>
+                <input id="pay_now_button" form="myform" value="Pay Now!" type=submit class="btn btn-warning"></input>
             </div>
 
             <!-- Other content inside the first column -->
@@ -43,8 +43,10 @@
                         {% for item in items %}
                         <div class="row mt-3">
                             <div class="col-md-4 d-flex align-items-center">
+                                {% if item.furniture.image %}
                                 <img src="{{ MEDIA_URL }}{{ item.furniture.image.url }}" alt="Product Image"
                                      class="rounded shadow-sm mr-3" style="width: 124.38px; height: 122.48px;">
+                                {% endif %}
                             </div>
                             <div class="col d-flex flex-column">
                                 <div class="col-md-2 d-flex align-items-center"><h2>{{ item.furniture.name }}</h2></div>

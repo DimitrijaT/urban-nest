@@ -65,7 +65,7 @@
 <div class="container my-5">
     <div class="d-flex justify-content-between align-items-center"><h3><strong><i
             class='fas fa-home' style='font-size:36px'></i> My Products</strong></h3>
-        <a href="{% url 'add_furniture_ad' %}" class="btn-fancy text-decoration-none">
+        <a href="{% url 'add_furniture_ad' %}" id="sell_furniture" class="btn-fancy text-decoration-none">
             <span class="btn-text">Sell</span>
             <span class="btn-shine"></span>
             <span class="btn-shine btn-shine-2"></span>
@@ -86,11 +86,12 @@
                 <th scope="col" class="text-center">Actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="furniture_ad_tbody">
             {% for ad in list_of_ads %}
             <tr>
                 {% if ad.image %}
-                <td><a href="{% url 'addetails' pk=ad.pk %}"><img src="{{ad.image.url}}" alt="" width="100px" class="rounded shadow-sm"></a></td>
+                <td><a href="{% url 'addetails' pk=ad.pk %}"><img src="{{ad.image.url}}" alt="" width="100px"
+                                                                  class="rounded shadow-sm"></a></td>
                 {% endif %}
 
 
@@ -111,7 +112,7 @@
                 </td>
                 {% else %}
                 <td class="align-middle text-center">
-                    /
+
                 </td>
                 {% endif %}
             </tr>

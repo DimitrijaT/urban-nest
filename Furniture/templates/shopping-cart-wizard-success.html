@@ -23,16 +23,18 @@
         </svg>
 
 
-        <h1>Payment Confirmed</h1>
-        <p class="text-secondary">ORDER #</p>
-        <h6 class="text-center"> Thank you {{urbanuser.first_name}} for buying from UrbanNest. Now that your order is confirmed it will be ready
+        <h1 id="payment_confirmed_screen">Payment Confirmed</h1>
+        <p class="text-secondary">ORDER</p>
+        <h6 class="text-center">Thank you {{urbanuser.first_name}} for buying from UrbanNest. Now that your order is
+            confirmed it will be ready
             to ship in 2 days.
             Please check your inbox in the future for your order updates.</h6>
         <!-- Other content inside the first column -->
 
         <a href="{% url 'adcategory' %}" class="btn btn-warning mt-2"
            style="font-size: 18px;">Back to Shopping</a>
-        <a value="Print Receipt" type=submit class="text-danger font-weight-bold text-decoration-underline mt-2">Print Receipt</a>
+        <a value="Print Receipt" type=submit class="text-danger font-weight-bold text-decoration-underline mt-2">Print
+            Receipt</a>
 
     </div>
 

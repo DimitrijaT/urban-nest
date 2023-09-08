@@ -148,7 +148,7 @@
                 <a href="{% url 'create_thread' furniture_id=item.pk %}"
                    class="btn btn-message-seller border border-warning">Message
                     Seller</a>
-                <a href="{% url 'add_to_cart' furniture_id=item.pk %}" class="border border-danger btn btn-add-to-cart">+
+                <a id="add_to_cart_button" href="{% url 'add_to_cart' furniture_id=item.pk %}" class="border border-danger btn btn-add-to-cart">+
                     Add to
                     Cart</a>
                 {% endif %}
